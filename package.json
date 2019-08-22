@@ -17,6 +17,7 @@
 		"/index.js"
 	],
 	"scripts": {
+		"start-exploring-server": "node ./script/start-exploring-server/start-exploring-server.js",
 		"test": "node ./script/test/test.js",
 		"start-continuous-testing": "node ./script/start-continuous-testing/start-continuous-testing.js",
 		"eslint-check": "eslint .",
@@ -48,6 +49,7 @@
 		"@jsenv/node-launcher": "1.16.0",
 		"@jsenv/bundling": "1.14.0",
 		"@jsenv/node-module-import-map": "3.2.0",
+		"@jsenv/exploring-server": "2.14.0",
 		"@jsenv/eslint-config": "9.8.0",
 		"@jsenv/prettier-config": "1.0.0",
 		"@jsenv/prettier-check-project": "3.2.0",
