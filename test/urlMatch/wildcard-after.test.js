@@ -40,3 +40,13 @@ import { urlMatch } from "../../index.js"
   }
   assert({ actual, expected })
 }
+
+{
+  const actual = urlMatch({ pattern: "file:///a*", url: "file:///a/" })
+  const expected = {
+    matched: false,
+    index: 9,
+    patternIndex: 10,
+  }
+  assert({ actual, expected })
+}
