@@ -1,52 +1,52 @@
 import { assert } from "@dmail/assert"
-import { pathnameMatch } from "../../index.js"
+import { urlMatch } from "../../index.js"
 
 {
-  const actual = pathnameMatch({ pattern: "/a*bc", pathname: "/abc" })
+  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///abc" })
   const expected = {
     matched: false,
-    patternIndex: 2,
-    pathnameIndex: 2,
+    index: 9,
+    patternIndex: 9,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/a*bc", pathname: "/aZZbc" })
+  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///aZZbc" })
   const expected = {
     matched: true,
-    patternIndex: 5,
-    pathnameIndex: 6,
+    index: 13,
+    patternIndex: 12,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/a*bc", pathname: "/aZZbd" })
+  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///aZZbd" })
   const expected = {
     matched: false,
-    patternIndex: 4,
-    pathnameIndex: 6,
+    index: 13,
+    patternIndex: 11,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/a/b*/c", pathname: "/a/bZ/c" })
+  const actual = urlMatch({ pattern: "file:///a/b*/c", url: "file:///a/bZ/c" })
   const expected = {
     matched: true,
-    patternIndex: 7,
-    pathnameIndex: 7,
+    index: 14,
+    patternIndex: 14,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/a/b*/c", pathname: "/a/b/c" })
+  const actual = urlMatch({ pattern: "file:///a/b*/c", url: "file:///a/b/c" })
   const expected = {
     matched: false,
-    patternIndex: 4,
-    pathnameIndex: 4,
+    index: 11,
+    patternIndex: 11,
   }
   assert({ actual, expected })
 }

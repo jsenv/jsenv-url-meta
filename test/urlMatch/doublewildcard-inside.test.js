@@ -1,12 +1,12 @@
 import { assert } from "@dmail/assert"
-import { pathnameMatch } from "../../index.js"
+import { urlMatch } from "../../index.js"
 
 {
-  const actual = pathnameMatch({ pathname: "/a/b/c", pattern: "/a/**/b/c" })
+  const actual = urlMatch({ pattern: "file:///a/**/b/c", url: "file:///a/b/c" })
   const expected = {
     matched: true,
-    patternIndex: 9,
-    pathnameIndex: 6,
+    index: 13,
+    patternIndex: 16,
   }
   assert({ actual, expected })
 }

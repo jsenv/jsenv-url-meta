@@ -1,32 +1,32 @@
 import { assert } from "@dmail/assert"
-import { pathnameMatch } from "../../index.js"
+import { urlMatch } from "../../index.js"
 
 {
-  const actual = pathnameMatch({ pattern: "/**/a/**/", pathname: "/a" })
+  const actual = urlMatch({ pattern: "file:///**/a/**/", url: "file:///a" })
   const expected = {
     matched: false,
-    patternIndex: 5,
-    pathnameIndex: 2,
+    index: 9,
+    patternIndex: 12,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/**/a/**/", pathname: "/a/b/c.js" })
+  const actual = urlMatch({ pattern: "file:///**/a/**/", url: "file:///a/b/c.js" })
   const expected = {
     matched: true,
-    patternIndex: 9,
-    pathnameIndex: 9,
+    index: 16,
+    patternIndex: 16,
   }
   assert({ actual, expected })
 }
 
 {
-  const actual = pathnameMatch({ pattern: "/**/a/**/", pathname: "/b/a/c.js" })
+  const actual = urlMatch({ pattern: "file:///**/a/**/", url: "file:///b/a/c.js" })
   const expected = {
     matched: true,
-    patternIndex: 9,
-    pathnameIndex: 9,
+    index: 16,
+    patternIndex: 16,
   }
   assert({ actual, expected })
 }

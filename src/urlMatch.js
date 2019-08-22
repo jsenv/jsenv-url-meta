@@ -5,26 +5,26 @@
 {
   matched: Boolean, // true false if value match
   index: Number, // the index at which we were able to determine url matched or not
-  patternIndex: Number, // index of the last pattern checked
+  patternIndex: Number, // last pattern index checked
 }
 */
 
 import { hrefToScheme } from "@jsenv/module-resolution"
 
-export const urlMatch = ({ url, pattern }) => {
-  if (typeof url !== "string") {
-    throw new TypeError(`url must be a string, got ${url}`)
-  }
+export const urlMatch = ({ pattern, url }) => {
   if (typeof pattern !== "string") {
-    throw new TypeError(`pattern must be a string, got ${url}`)
-  }
-  const urlScheme = hrefToScheme(url)
-  if (!urlScheme) {
-    throw new Error(`url has no scheme, got ${url}`)
+    throw new TypeError(`pattern must be a string, got ${pattern}`)
   }
   const patternScheme = hrefToScheme(pattern)
   if (!patternScheme) {
-    throw new Error(`pattern has no scheme, got ${pattern}`)
+    throw new Error(`pattern must have a scheme, got ${pattern}`)
+  }
+  if (typeof url !== "string") {
+    throw new TypeError(`url must be a string, got ${url}`)
+  }
+  const urlScheme = hrefToScheme(url)
+  if (!urlScheme) {
+    throw new Error(`url must have a scheme, got ${url}`)
   }
 
   return match({ pattern, string: url })
@@ -224,15 +224,15 @@ const skipUntilMatch = ({ pattern, string, skippablePredicate = () => true }) =>
 const pass = ({ patternIndex, index }) => {
   return {
     matched: true,
-    patternIndex,
     index,
+    patternIndex,
   }
 }
 
 const fail = ({ patternIndex, index }) => {
   return {
     matched: false,
-    patternIndex,
     index,
+    patternIndex,
   }
 }

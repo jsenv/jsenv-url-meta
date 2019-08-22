@@ -18,6 +18,7 @@
 	],
 	"scripts": {
 		"test": "node ./script/test/test.js",
+		"start-continuous-testing": "node ./script/start-continuous-testing/start-continuous-testing.js",
 		"eslint-check": "eslint .",
 		"prettier-check": "node ./script/prettier-check/prettier-check.js",
 		"generate-coverage": "node ./script/generate-coverage/generate-coverage.js",
