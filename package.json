@@ -1,10 +1,10 @@
 {
-	"name": "@dmail/server",
-	"version": "2.6.0",
+	"name": "@jsenv/url-meta",
+	"version": "1.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/dmail/server"
+		"url": "https://github.com/jsenv/jsenv-url-meta"
 	},
 	"publishConfig": {
 		"access": "public"
@@ -35,13 +35,7 @@
 		"postpublish": "node ./script/transform-package/restore-postinstall.js"
 	},
 	"dependencies": {
-		"@jsenv/operating-system-path": "2.2.0",
-		"@jsenv/module-resolution": "3.3.0",
-		"@dmail/cancellation": "2.5.0",
-		"@dmail/process-signals": "1.0.0",
-		"@dmail/helper": "2.2.0",
-		"kill-port": "1.5.1",
-		"node-forge": "0.8.5"
+		"@jsenv/module-resolution": "3.3.0"
 	},
 	"devDependencies": {
 		"@jsenv/core": "5.133.0",
@@ -55,7 +49,6 @@
 		"@jsenv/prettier-check-project": "3.2.0",
 		"@jsenv/codecov-upload": "1.6.0",
 		"@dmail/assert": "3.13.0",
-		"node-fetch": "2.6.0",
 		"eslint": "6.2.1",
 		"prettier": "1.18.2",
 		"rimraf": "3.0.0"
