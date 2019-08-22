@@ -38,8 +38,8 @@
 		"@jsenv/module-resolution": "3.3.0"
 	},
 	"devDependencies": {
-		"@jsenv/core": "5.133.0",
-		"@jsenv/testing": "1.24.0",
+		"@jsenv/core": "5.134.0",
+		"@jsenv/testing": "1.25.0",
 		"@jsenv/node-launcher": "1.16.0",
 		"@jsenv/bundling": "1.14.0",
 		"@jsenv/node-module-import-map": "3.2.0",
