@@ -1,6 +1,6 @@
 {
 	"name": "@jsenv/url-meta",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -35,20 +35,20 @@
 		"postpublish": "node ./script/transform-package/restore-postinstall.js"
 	},
 	"dependencies": {
-		"@jsenv/module-resolution": "3.3.0"
+		"@jsenv/module-resolution": "3.4.0"
 	},
 	"devDependencies": {
-		"@jsenv/core": "5.134.0",
-		"@jsenv/testing": "1.25.0",
+		"@jsenv/execution": "1.1.0",
+		"@jsenv/testing": "1.27.0",
 		"@jsenv/node-launcher": "1.16.0",
-		"@jsenv/bundling": "1.14.0",
+		"@jsenv/bundling": "1.15.0",
 		"@jsenv/node-module-import-map": "3.2.0",
 		"@jsenv/exploring-server": "2.14.0",
 		"@jsenv/eslint-config": "9.8.0",
 		"@jsenv/prettier-config": "1.0.0",
 		"@jsenv/prettier-check-project": "3.2.0",
 		"@jsenv/codecov-upload": "1.6.0",
-		"@dmail/assert": "3.13.0",
+		"@dmail/assert": "3.14.0",
 		"eslint": "6.2.1",
 		"prettier": "1.18.2",
 		"rimraf": "3.0.0"
