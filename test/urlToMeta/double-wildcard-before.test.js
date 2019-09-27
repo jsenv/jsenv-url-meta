@@ -4,55 +4,43 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/a": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///b/a",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/a": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///c/b/a",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/a": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///a.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/a": { a: true },
     },
   })
   const expected = {}
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }

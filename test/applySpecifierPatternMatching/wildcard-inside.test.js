@@ -1,8 +1,11 @@
 import { assert } from "@dmail/assert"
-import { urlMatch } from "../../index.js"
+import { applySpecifierPatternMatching } from "../../index.js"
 
 {
-  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///abc" })
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a*bc",
+    url: "file:///abc",
+  })
   const expected = {
     matched: false,
     index: 9,
@@ -12,7 +15,10 @@ import { urlMatch } from "../../index.js"
 }
 
 {
-  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///aZZbc" })
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a*bc",
+    url: "file:///aZZbc",
+  })
   const expected = {
     matched: true,
     index: 13,
@@ -22,7 +28,10 @@ import { urlMatch } from "../../index.js"
 }
 
 {
-  const actual = urlMatch({ pattern: "file:///a*bc", url: "file:///aZZbd" })
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a*bc",
+    url: "file:///aZZbd",
+  })
   const expected = {
     matched: false,
     index: 13,
@@ -32,7 +41,10 @@ import { urlMatch } from "../../index.js"
 }
 
 {
-  const actual = urlMatch({ pattern: "file:///a/b*/c", url: "file:///a/bZ/c" })
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a/b*/c",
+    url: "file:///a/bZ/c",
+  })
   const expected = {
     matched: true,
     index: 14,
@@ -42,7 +54,10 @@ import { urlMatch } from "../../index.js"
 }
 
 {
-  const actual = urlMatch({ pattern: "file:///a/b*/c", url: "file:///a/b/c" })
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a/b*/c",
+    url: "file:///a/b/c",
+  })
   const expected = {
     matched: false,
     index: 11,

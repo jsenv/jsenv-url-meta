@@ -1,5 +1,13 @@
-export { urlMatch } from "./src/urlMatch.js"
-export { urlToMeta } from "./src/urlToMeta.js"
-export { urlCanContainsMetaMatching } from "./src/urlCanContainsMetaMatching.js"
-export { namedMetaToMetaMap } from "./src/namedMetaToMetaMap.js"
-export { resolveMetaMapPatterns } from "./src/resolveMetaMapPatterns.js"
+export {
+  applySpecifierPatternMatching,
+} from "./src/applySpecifierPatternMatching/applySpecifierPatternMatching.js"
+export {
+  metaMapToSpecifierMetaMap,
+} from "./src/metaMapToSpecifierMetaMap/metaMapToSpecifierMetaMap.js"
+export {
+  normalizeSpecifierMetaMap,
+} from "./src/normalizeSpecifierMetaMap/normalizeSpecifierMetaMap.js"
+export {
+  urlCanContainsMetaMatching,
+} from "./src/urlCanContainsMetaMatching/urlCanContainsMetaMatching.js"
+export { urlToMeta } from "./src/urlToMeta/urlToMeta.js"

@@ -4,97 +4,76 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///node_modules",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///a",
-    metaMap: {
+    specifierMetaMap: {
       "file:///a/**/*.test.js": { a: true },
     },
   })
   const expected = {}
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///a/b.test.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///a/**/*.test.js": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///a/b.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///a/**/*.test.js": { a: true },
     },
   })
   const expected = {}
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///a/b/c.test.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///a/**/*.test.js": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }
 
 {
   const actual = urlToMeta({
     url: "file:///index.test.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*.js": { a: true },
     },
   })
   const expected = { a: true }
-  assert({
-    actual,
-    expected,
-  })
+  assert({ actual, expected })
 }

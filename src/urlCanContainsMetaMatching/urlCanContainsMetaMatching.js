@@ -1,10 +1,13 @@
-import { urlMatch } from "./urlMatch.js"
+import { assertUrlLike } from "../assertUrlLike.js"
+import { assertSpecifierMetaMap } from "../assertSpecifierMetaMap.js"
+import { applySpecifierPatternMatching } from "../applySpecifierPatternMatching/applySpecifierPatternMatching.js"
 
-export const urlCanContainsMetaMatching = ({ url, metaMap, predicate }) => {
-  if (typeof url !== "string") throw new TypeError(`pathname must be a string, got ${url}`)
-  if (typeof metaMap !== "object") throw new TypeError(`metaMap must be an object, got ${metaMap}`)
-  if (typeof predicate !== "function")
+export const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate }) => {
+  assertUrlLike(url, "url")
+  assertSpecifierMetaMap(specifierMetaMap)
+  if (typeof predicate !== "function") {
     throw new TypeError(`predicate must be a function, got ${predicate}`)
+  }
 
   // we add a trailing slash because we are intested into what will be inside
   // this url, not the url itself
@@ -18,23 +21,26 @@ export const urlCanContainsMetaMatching = ({ url, metaMap, predicate }) => {
   // we don't know for sure if pattern will still match for a file inside pathname
   const partialMatchMetaArray = []
 
-  Object.keys(metaMap).forEach((pattern) => {
-    const { matched, index } = urlMatch({
+  Object.keys(specifierMetaMap).forEach((specifier) => {
+    const meta = specifierMetaMap[specifier]
+    const { matched, index } = applySpecifierPatternMatching({
+      specifier,
       url: urlWithTrailingSlash,
-      pattern,
     })
     if (matched) {
       someFullMatch = true
       fullMatchMeta = {
         ...fullMatchMeta,
-        ...metaMap[pattern],
+        ...meta,
       }
     } else if (someFullMatch === false && index >= url.length) {
-      partialMatchMetaArray.push(metaMap[pattern])
+      partialMatchMetaArray.push(meta)
     }
   })
 
-  if (someFullMatch) return Boolean(predicate(fullMatchMeta))
+  if (someFullMatch) {
+    return Boolean(predicate(fullMatchMeta))
+  }
 
   return partialMatchMetaArray.some((partialMatchMeta) => predicate(partialMatchMeta))
 }

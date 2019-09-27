@@ -4,7 +4,7 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///file.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: true },
       "file:///.git/": { whatever: false },
     },
@@ -16,7 +16,7 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///.git/file.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: true },
       "file:///.git/": { whatever: false },
     },
@@ -28,7 +28,7 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///file.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: false },
       "file:///*": { whatever: true },
     },
@@ -40,7 +40,7 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///.git/file.js",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: false },
       "file:///*": { whatever: true },
     },

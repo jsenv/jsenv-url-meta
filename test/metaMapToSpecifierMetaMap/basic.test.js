@@ -1,8 +1,8 @@
 import { assert } from "@dmail/assert"
-import { namedMetaToMetaMap } from "../../index.js"
+import { metaMapToSpecifierMetaMap } from "../../index.js"
 
 {
-  const actual = namedMetaToMetaMap({
+  const actual = metaMapToSpecifierMetaMap({
     visible: {
       "file:///a.js": true,
       "file:///b.js": false,
@@ -20,7 +20,7 @@ import { namedMetaToMetaMap } from "../../index.js"
 }
 
 {
-  const actual = namedMetaToMetaMap({
+  const actual = metaMapToSpecifierMetaMap({
     visible: {
       "file:///a.js": true,
     },

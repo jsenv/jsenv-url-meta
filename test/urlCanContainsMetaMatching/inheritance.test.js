@@ -4,7 +4,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: true },
       "file:///.git/": { whatever: false },
     },
@@ -17,7 +17,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///.git",
-    metaMap: {
+    specifierMetaMap: {
       "file:///**/*": { whatever: true },
       "file:///.git/": { whatever: false },
     },

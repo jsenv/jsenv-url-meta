@@ -11,7 +11,7 @@
 ```js
 import { urlToMeta } from "@jsenv/url-meta"
 
-const metaMap = {
+const specifierMetaMap = {
   "file:///**/*.js": {
     extension: "js",
   },
@@ -23,6 +23,6 @@ const metaMap = {
   },
 }
 
-urlToMeta({ url: "file:///file.js", metaMap }) // { extension: "js", foo: true }
-urlToMeta({ url: "file:///file.json", metaMap }) // { extension: "json" }
+urlToMeta({ url: "file:///file.js", specifierMetaMap }) // { extension: "js", foo: true }
+urlToMeta({ url: "file:///file.json", specifierMetaMap }) // { extension: "json" }
 ```

@@ -1,6 +1,6 @@
 {
 	"name": "@jsenv/url-meta",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -25,7 +25,6 @@
 		"generate-coverage": "node ./script/generate-coverage/generate-coverage.js",
 		"upload-coverage": "node ./script/upload-coverage/upload-coverage.js",
 		"generate-commonjs-bundle": "node ./script/generate-commonjs-bundle/generate-commonjs-bundle.js",
-		"generate-signature-file": "node ./script/run-node/run-node.js src/server/generate-signature-file.js",
 		"generate-import-map": "node ./script/generate-import-map/generate-import-map.js",
 		"dist": "npm run clean && npm run generate-commonjs-bundle",
 		"clean": "rimraf dist && rimraf coverage",
@@ -35,21 +34,21 @@
 		"postpublish": "node ./script/transform-package/restore-postinstall.js"
 	},
 	"dependencies": {
-		"@jsenv/module-resolution": "3.5.0"
+		"@jsenv/import-map": "5.2.0"
 	},
 	"devDependencies": {
-		"@jsenv/execution": "2.0.0",
-		"@jsenv/testing": "2.0.0",
-		"@jsenv/bundling": "2.1.0",
-		"@jsenv/exploring-server": "2.17.0",
-		"@jsenv/node-launcher": "2.1.0",
-		"@jsenv/node-module-import-map": "4.4.0",
-		"@jsenv/eslint-config": "9.9.0",
-		"@jsenv/prettier-config": "1.0.0",
-		"@jsenv/prettier-check-project": "3.3.0",
-		"@jsenv/codecov-upload": "1.7.0",
 		"@dmail/assert": "3.14.0",
-		"eslint": "6.2.2",
+		"@jsenv/bundling": "6.1.0",
+		"@jsenv/codecov-upload": "1.8.0",
+		"@jsenv/eslint-config": "10.1.0",
+		"@jsenv/execution": "5.12.0",
+		"@jsenv/exploring-server": "3.10.0",
+		"@jsenv/node-launcher": "4.16.0",
+		"@jsenv/node-module-import-map": "7.0.0",
+		"@jsenv/prettier-check-project": "3.4.0",
+		"@jsenv/prettier-config": "1.0.0",
+		"@jsenv/testing": "3.3.0",
+		"eslint": "6.4.0",
 		"prettier": "1.18.2",
 		"rimraf": "3.0.0"
 	}

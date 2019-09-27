@@ -1,13 +1,14 @@
 import { assert } from "@dmail/assert"
-import { resolveMetaMapPatterns } from "../../index.js"
+import { normalizeSpecifierMetaMap } from "../../index.js"
 
 {
-  const actual = resolveMetaMapPatterns(
+  const actual = normalizeSpecifierMetaMap(
     {
       "/a.js": { whatever: true },
       "http://example.com/file.js": { whatever: true },
     },
     "file:///User/name/folder",
+    { forceHttpResolutionForFile: true },
   )
   const expected = {
     "file:///User/name/folder/a.js": { whatever: true },

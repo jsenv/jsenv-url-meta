@@ -2,14 +2,14 @@ import { assert } from "@dmail/assert"
 import { urlCanContainsMetaMatching } from "../../index.js"
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///a/b": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -19,7 +19,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/c",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = false
@@ -29,7 +29,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/b",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -38,14 +38,14 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///a/b*/c": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/bZ",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -55,7 +55,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/bZ/c",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -67,14 +67,14 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///a/**/b.js": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/b/c",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -83,7 +83,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///**/*": { a: true },
     "file:///node_modules/": { a: false }, // eslint-disable-line camelcase
   }
@@ -91,7 +91,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///node_modules",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = false
@@ -100,7 +100,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///**/*.js": { a: true },
     "file:///**/*.md": { a: false },
   }
@@ -108,7 +108,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -117,14 +117,14 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///**/*.js": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src/folder",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -134,7 +134,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src/folder/subfolder",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true
@@ -143,14 +143,14 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 }
 
 {
-  const metaMap = {
+  const specifierMetaMap = {
     "file:///src/**/*.js": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src/jsCreateCompileService/compile",
-      metaMap,
+      specifierMetaMap,
       predicate: (meta) => meta.a,
     })
     const expected = true

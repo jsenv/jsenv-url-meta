@@ -1,36 +1,15 @@
 // https://git-scm.com/docs/gitignore
 // https://github.com/kaelzhang/node-ignore
 
-/*
-{
-  matched: Boolean, // true false if value match
-  index: Number, // the index at which we were able to determine url matched or not
-  patternIndex: Number, // last pattern index checked
-}
-*/
+import { assertUrlLike } from "../assertUrlLike.js"
 
-import { hrefToScheme } from "@jsenv/module-resolution"
-
-export const urlMatch = ({ pattern, url }) => {
-  if (typeof pattern !== "string") {
-    throw new TypeError(`pattern must be a string, got ${pattern}`)
-  }
-  const patternScheme = hrefToScheme(pattern)
-  if (!patternScheme) {
-    throw new Error(`pattern must have a scheme, got ${pattern}`)
-  }
-  if (typeof url !== "string") {
-    throw new TypeError(`url must be a string, got ${url}`)
-  }
-  const urlScheme = hrefToScheme(url)
-  if (!urlScheme) {
-    throw new Error(`url must have a scheme, got ${url}`)
-  }
-
-  return match({ pattern, string: url })
+export const applySpecifierPatternMatching = ({ specifier, url } = {}) => {
+  assertUrlLike(specifier, "specifier")
+  assertUrlLike(url, "url")
+  return applyPatternMatching(specifier, url)
 }
 
-const match = ({ pattern, string }) => {
+const applyPatternMatching = (pattern, string) => {
   let patternIndex = 0
   let index = 0
   let remainingPattern = pattern
@@ -181,10 +160,7 @@ const skipUntilMatch = ({ pattern, string, skippablePredicate = () => true }) =>
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const matchAttempt = match({
-      pattern,
-      string: remainingString,
-    })
+    const matchAttempt = applyPatternMatching(pattern, remainingString)
 
     if (matchAttempt.matched) {
       bestMatch = matchAttempt
