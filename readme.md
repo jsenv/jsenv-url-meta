@@ -1,7 +1,7 @@
 # Url meta
 
-[![npm package](https://img.shields.io/npm/v/@jsenv/url-meta.svg)](https://www.npmjs.com/package/@jsenv/url-meta)
-[![build](https://travis-ci.com/jsenv/jsenv-url-meta.svg?branch=master)](http://travis-ci.com/jsenv/jsenv-url-meta)
+[![github package](https://img.shields.io/github/package-json/v/jsenv/jsenv-url-meta.svg?label=package&logo=github)](https://github.com/jsenv/jsenv-url-meta/packages)
+[![ci status](https://github.com/jsenv/jsenv-url-meta/workflows/ci/badge.svg)](https://github.com/jsenv/jsenv-url-meta/actions)
 [![codecov](https://codecov.io/gh/jsenv/jsenv-url-meta/branch/master/graph/badge.svg)](https://codecov.io/gh/jsenv/jsenv-url-meta)
 
 > Associate meta to url using pattern.
