@@ -44,7 +44,7 @@
 		"@jsenv/eslint-config": "10.1.0",
 		"@jsenv/execution": "6.1.0",
 		"@jsenv/exploring-server": "3.11.0",
-		"@jsenv/node-launcher": "4.19.0",
+		"@jsenv/node-launcher": "4.20.0",
 		"@jsenv/node-module-import-map": "7.1.0",
 		"@jsenv/prettier-check-project": "3.5.0",
 		"@jsenv/prettier-config": "1.0.1",
