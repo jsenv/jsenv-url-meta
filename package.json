@@ -1,6 +1,6 @@
 {
 	"name": "@jsenv/url-meta",
-	"version": "3.0.0",
+	"version": "3.1.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -35,7 +35,7 @@
 		"postpublish": "node ./script/transform-package/restore-postinstall.js"
 	},
 	"dependencies": {
-		"@jsenv/import-map": "5.2.0"
+		"@jsenv/import-map": "5.8.0"
 	},
 	"devDependencies": {
 		"@dmail/assert": "3.14.0",
