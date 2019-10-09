@@ -1,6 +1,7 @@
 {
 	"name": "@jsenv/url-meta",
-	"version": "3.1.0",
+	"description": "Associate url with data using patterns",
+	"version": "3.1.1",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
@@ -35,21 +36,22 @@
 		"postpublish": "node ./script/transform-package/restore-postinstall.js"
 	},
 	"dependencies": {
-		"@jsenv/import-map": "5.8.0"
+		"@jsenv/import-map": "5.8.2"
 	},
 	"devDependencies": {
 		"@dmail/assert": "3.14.0",
-		"@jsenv/bundling": "6.3.0",
-		"@jsenv/codecov-upload": "1.9.0",
-		"@jsenv/eslint-config": "10.1.0",
-		"@jsenv/execution": "6.1.0",
-		"@jsenv/exploring-server": "3.11.0",
-		"@jsenv/node-launcher": "4.20.0",
-		"@jsenv/node-module-import-map": "7.1.0",
+		"@jsenv/bundling": "6.7.1",
+		"@jsenv/codecov-upload": "2.0.0",
+		"@jsenv/continuous-size-reporting": "1.1.1",
+		"@jsenv/eslint-config": "10.2.0",
+		"@jsenv/execution": "6.2.0",
+		"@jsenv/exploring-server": "3.12.0",
+		"@jsenv/node-launcher": "4.21.0",
+		"@jsenv/node-module-import-map": "7.2.3",
 		"@jsenv/prettier-check-project": "3.5.0",
 		"@jsenv/prettier-config": "1.0.1",
-		"@jsenv/testing": "3.6.0",
-		"eslint": "6.5.0",
+		"@jsenv/testing": "3.7.0",
+		"eslint": "6.5.1",
 		"prettier": "1.18.2",
 		"rimraf": "3.0.0"
 	}
