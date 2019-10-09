@@ -25,14 +25,14 @@
 The table below gives an idea of pattern matching behaviour.<br />
 You may also read associated [unit tests](./test/applySpecifierPatternMatching/) to understand how it behaves.
 
-| specifier                           | url                                | matches |
-| ----------------------------------- | ---------------------------------- | ------- |
-| `http://domain.com/folder`          | `http://domain.com/folder/file.js` | false   |
-| `http://domain.com/folder/*.js`     | `http://domain.com/folder/file.js` | true    |
-| `http://domain.com/folder/**/*.js`  | `http://domain.com/folder/file.js` | true    |
-| `http://domain.com/**/*.js`         | `http://domain.com/folder/file.js` | true    |
-| `http://domain.com/folder/file.js`  | `http://domain.com/folder/file.js` | true    |
-| `http://domain.com/folder/file.jsx` | `http://domain.com/folder/file.js` | false   |
+| specifier          | url                                | matches |
+| ------------------ | ---------------------------------- | ------- |
+| `/folder`          | `http://domain.com/folder/file.js` | false   |
+| `/folder/*.js`     | `http://domain.com/folder/file.js` | true    |
+| `/folder/**/*.js`  | `http://domain.com/folder/file.js` | true    |
+| `/**/*.js`         | `http://domain.com/folder/file.js` | true    |
+| `/folder/file.js`  | `http://domain.com/folder/file.js` | true    |
+| `/folder/file.jsx` | `http://domain.com/folder/file.js` | false   |
 
 ## applySpecifierPatternMatching
 
