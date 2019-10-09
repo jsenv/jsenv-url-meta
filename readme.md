@@ -6,6 +6,7 @@
 
 ## Table of contents
 
+- [Specifier pattern matching behaviour](#specifier-pattern-matching-behaviour)
 - [applySpecifierPatternMatching](#applySpecifierPatternMatching)
   - [specifier](#specifier)
   - [url](#url)
@@ -18,6 +19,20 @@
   - [predicate](#predicate)
 - [urlToMeta](#urlToMeta)
 - [Installation](#installation)
+
+## Specifier pattern matching behaviour
+
+The table below gives an idea of pattern matching behaviour.<br />
+You may also read associated [unit tests](./test/applySpecifierPatternMatching/) to understand how it behaves.
+
+| specifier                           | url                                | matches |
+| ----------------------------------- | ---------------------------------- | ------- |
+| `http://domain.com/folder`          | `http://domain.com/folder/file.js` | false   |
+| `http://domain.com/folder/*.js`     | `http://domain.com/folder/file.js` | true    |
+| `http://domain.com/folder/**/*.js`  | `http://domain.com/folder/file.js` | true    |
+| `http://domain.com/**/*.js`         | `http://domain.com/folder/file.js` | true    |
+| `http://domain.com/folder/file.js`  | `http://domain.com/folder/file.js` | true    |
+| `http://domain.com/folder/file.jsx` | `http://domain.com/folder/file.js` | false   |
 
 ## applySpecifierPatternMatching
 
