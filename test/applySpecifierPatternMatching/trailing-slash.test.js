@@ -13,3 +13,16 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
   assert({ actual, expected })
 }
+
+{
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///a",
+    url: "file:///a/b",
+  })
+  const expected = {
+    matched: false,
+    index: 9,
+    patternIndex: 9,
+  }
+  assert({ actual, expected })
+}
