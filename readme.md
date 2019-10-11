@@ -76,6 +76,8 @@ You may also read associated [unit tests](./test/applySpecifierPatternMatching/)
 
 `@jsenv/url-meta` api is documented here.
 
+---
+
 ### applySpecifierPatternMatching
 
 > `applySpecifierPatternMatching` can be used to know if and how a `specifier` matches an `url`.
