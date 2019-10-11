@@ -11,6 +11,9 @@
 		"access": "public",
 		"registry": "https://npm.pkg.github.com"
 	},
+	"engines": {
+		"node": ">=12.0.0"
+	},
 	"main": "dist/commonjs/main.js",
 	"module": "index.js",
 	"files": [
@@ -40,13 +43,13 @@
 	},
 	"devDependencies": {
 		"@dmail/assert": "3.14.0",
-		"@jsenv/bundling": "6.7.1",
+		"@jsenv/bundling": "7.1.1",
 		"@jsenv/codecov-upload": "2.0.0",
 		"@jsenv/continuous-size-reporting": "1.1.1",
 		"@jsenv/eslint-config": "10.2.0",
 		"@jsenv/execution": "6.2.0",
-		"@jsenv/exploring-server": "3.12.0",
-		"@jsenv/node-launcher": "4.21.0",
+		"@jsenv/exploring-server": "3.13.1",
+		"@jsenv/node-launcher": "4.22.2",
 		"@jsenv/node-module-import-map": "7.2.3",
 		"@jsenv/prettier-check-project": "3.5.0",
 		"@jsenv/prettier-config": "1.0.1",
