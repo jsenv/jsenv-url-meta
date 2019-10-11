@@ -101,8 +101,6 @@ This parameter is **required**, an example value could be:
 "http://domain.com/**/*.js"
 ```
 
----
-
 #### url
 
 > `url` parameter is a string representing a url.
@@ -112,8 +110,6 @@ This parameter is **required**, an example value could be:
 ```js
 "http://domain.com/folder/file.js"
 ```
-
----
 
 #### matchResult
 
@@ -177,8 +173,6 @@ This parameter is **required**, an example value could be:
 }
 ```
 
----
-
 #### specifierMetaMap
 
 > `specifierMetaMap` is an object returned by `metaMapToSpecifierMetaMap` where meta (other objects) are conditionnaly apply by specifier.
@@ -191,6 +185,8 @@ A `specifierMetaMap` could be
   "file://**/.git": { visible: false },
 }
 ```
+
+---
 
 ### normalizeSpecifierMetaMap
 
@@ -224,6 +220,8 @@ false
 | specifier | url                  | resolution forced to http    | standard resolution |
 | --------- | -------------------- | ---------------------------- | ------------------- |
 | /file.js  | file:///Users/folder | file:///Users/folder/file.js | file:///file.js     |
+
+---
 
 ### urlCanContainsMetaMatching
 
@@ -270,7 +268,9 @@ file:///src can contains meta matching source: true
 
 — see [source code on github](./src/urlCanContainsMetaMatching/urlCanContainsMetaMatching.js)
 
-### urlCanContainsMetaMatching
+---
+
+### urlToMeta
 
 > `urlToMeta` returns an object being the composition of all object associated with a matching specifier.
 
