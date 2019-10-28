@@ -1,5 +1,4 @@
 /.dist/
-/dist/
 /coverage/
 /node_modules/
 /importMap.json
