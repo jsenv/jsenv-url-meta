@@ -66,7 +66,7 @@ http://your-domain.com/file.js: {
 
 ## Pattern matching behaviour
 
-The table below gives an idea of how pattern matching behaves.<br />
+The table below gives an idea of how pattern matching behaves.
 
 | specifier          | url                                | matches |
 | ------------------ | ---------------------------------- | ------- |
