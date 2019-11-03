@@ -1,14 +1,19 @@
 import { assert } from "@dmail/assert"
-import { urlCanContainsMetaMatching } from "../../index.js"
+import { urlToMeta } from "../../index.js"
+
+const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate }) => {
+  const meta = urlToMeta({ url, specifierMetaMap })
+  return predicate(meta)
+}
 
 {
   const specifierMetaMap = {
-    "file:///a/b": { a: true },
+    "file:///a/b/": { a: true },
   }
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a",
+      url: "file:///a/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -18,7 +23,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a/c",
+      url: "file:///a/c/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -28,7 +33,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a/b",
+      url: "file:///a/b/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -44,7 +49,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a/bZ",
+      url: "file:///a/bZ/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -54,7 +59,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a/bZ/c",
+      url: "file:///a/bZ/c/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -73,7 +78,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///a/b/c",
+      url: "file:///a/b/c/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -90,7 +95,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///node_modules",
+      url: "file:///node_modules/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -107,7 +112,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///src",
+      url: "file:///src/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -123,7 +128,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///src/folder",
+      url: "file:///src/folder/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -133,7 +138,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///src/folder/subfolder",
+      url: "file:///src/folder/subfolder/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
@@ -149,7 +154,7 @@ import { urlCanContainsMetaMatching } from "../../index.js"
 
   {
     const actual = urlCanContainsMetaMatching({
-      url: "file:///src/jsCreateCompileService/compile",
+      url: "file:///src/jsCreateCompileService/compile/",
       specifierMetaMap,
       predicate: (meta) => meta.a,
     })
