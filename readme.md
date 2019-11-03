@@ -209,7 +209,7 @@ const specifierMetaMapNormalized = normalizeSpecifierMetaMap(
     "./**/*": { visible: true },
     "./**/.git": { visible: false },
   },
-  "file:///Users/folder",
+  "file:///Users/folder/",
 )
 ```
 
@@ -224,29 +224,29 @@ import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
 
 const specifierMetaMap = {
   "file:///**/*": {
-    source: true,
+    color: "blue",
   },
   "file:///**/node_modules": {
-    source: false,
+    color: "green",
   },
 }
-const predicate = ({ source }) => source === true
+const bluePredicate = ({ color }) => color === "blue"
 
-const urlA = "file:///node_modules/src"
-const urlB = "file:///src"
+const urlA = "file:///src"
+const urlB = "file:///node_modules/src"
 
 console.log(
-  `${urlA} can contains meta matching source: ${urlCanContainsMetaMatching({
+  `${urlA} can contains meta matching blue predicate: ${urlCanContainsMetaMatching({
     url: urlA,
     specifierMetaMap,
-    predicate,
+    predicate: bluePredicate,
   })}`,
 )
 console.log(
-  `${urlB} can contains meta matching source: ${urlCanContainsMetaMatching({
+  `${urlB} can contains meta matching blue predicate: ${urlCanContainsMetaMatching({
     url: urlB,
     specifierMetaMap,
-    predicate,
+    predicate: bluePredicate,
   })}`,
 )
 ```
@@ -254,8 +254,8 @@ console.log(
 Console output
 
 ```console
-file:///node_modules/src can contains meta matching source: false
-file:///src can contains meta matching source: true
+file:///src can contains meta matching blue predicate: true
+file:///node_modules/src can contains meta matching blue predicate: false
 ```
 
 ### urlToMeta
@@ -297,7 +297,7 @@ file:///src/file.json: {
 
 ## Installation
 
-If you never installed a jsenv package, read [Installing a jsenv package](https://github.com/jsenv/jsenv-core/blob/master/docs/installing-jsenv-package.md#installing-a-jsenv-package) before going further.
+If you have never installed a jsenv package, read [Installing a jsenv package](https://github.com/jsenv/jsenv-core/blob/master/docs/installing-jsenv-package.md#installing-a-jsenv-package) before going further.
 
 This documentation is up-to-date with a specific version so prefer any of the following commands
 
