@@ -3,9 +3,16 @@
 
 import { assertUrlLike } from "../assertUrlLike.js"
 
-export const applySpecifierPatternMatching = ({ specifier, url } = {}) => {
+export const applySpecifierPatternMatching = ({ specifier, url, ...rest } = {}) => {
   assertUrlLike(specifier, "specifier")
   assertUrlLike(url, "url")
+  if (Object.keys(rest).length) {
+    throw new Error(`received more parameters than expected.
+--- name of unexpected parameters ---
+${Object.keys(rest)}
+--- name of expected parameters ---
+specifier, url`)
+  }
   return applyPatternMatching(specifier, url)
 }
 
@@ -17,46 +24,71 @@ const applyPatternMatching = (pattern, string) => {
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    //  '' === '' -> pass
+    // pattern consumed and string consumed
     if (remainingPattern === "" && remainingString === "") {
+      // pass because string fully matched pattern
       return pass({
         patternIndex,
         index,
       })
     }
 
-    // '' === value -> fail
+    // pattern consumed, string not consumed
     if (remainingPattern === "" && remainingString !== "") {
+      // fails because string longer than expected
       return fail({
         patternIndex,
         index,
       })
     }
 
-    // pattern === '' -> pass only if pattern is only **
-    if (remainingPattern !== "" && remainingString === "") {
-      // pass because pattern is optionnal
+    // from this point pattern is not consumed
+
+    // string consumed, pattern not consumed
+    if (remainingString === "") {
+      // pass because trailing "**" is optional
       if (remainingPattern === "**") {
         return pass({
-          patternIndex,
+          patternIndex: patternIndex + 2,
           index,
         })
       }
-
-      // fail because **/ would expect something like /a
-      // and **a would expect something like foo/bar/a
+      // fail because string shorted than expected
       return fail({
         patternIndex,
         index,
       })
     }
 
-    if (remainingPattern.slice(0, "**".length) === "**") {
-      patternIndex += `**`.length
-      remainingPattern = remainingPattern.slice(`**`.length)
+    // from this point pattern and string are not consumed
+
+    // fast path trailing slash
+    if (remainingPattern === "/") {
+      // pass because trailing slash matches remaining
+      return pass({
+        patternIndex: patternIndex + 1,
+        index: string.length,
+      })
+    }
+
+    // fast path trailing '**'
+    if (remainingPattern === "**") {
+      // pass because trailing ** matches remaining
+      return pass({
+        patternIndex: patternIndex + 2,
+        index: string.length,
+      })
+    }
+
+    // pattern leading **
+    if (remainingPattern.slice(0, 2) === "**") {
+      // consumes "**"
+      remainingPattern = remainingPattern.slice(2)
+      patternIndex += 2
       if (remainingPattern[0] === "/") {
-        patternIndex += "/".length
-        remainingPattern = remainingPattern.slice("/".length)
+        // consumes "/"
+        remainingPattern = remainingPattern.slice(1)
+        patternIndex += 1
       }
 
       // pattern ending with ** always match remaining string
@@ -83,8 +115,9 @@ const applyPatternMatching = (pattern, string) => {
     }
 
     if (remainingPattern[0] === "*") {
-      patternIndex += "*".length
-      remainingPattern = remainingPattern.slice("*".length)
+      // consumes "*"
+      remainingPattern = remainingPattern.slice(1)
+      patternIndex += 1
 
       // la c'est plus délicat, il faut que remainingString
       // ne soit composé que de truc !== '/'
@@ -137,18 +170,11 @@ const applyPatternMatching = (pattern, string) => {
       })
     }
 
-    // trailing slash on pattern, -> match remaining
-    if (remainingPattern === "/" && remainingString.length > 1) {
-      return pass({
-        patternIndex: patternIndex + 1,
-        index: string.length,
-      })
-    }
-
-    patternIndex += 1
-    index += 1
+    // consumes next char
     remainingPattern = remainingPattern.slice(1)
     remainingString = remainingString.slice(1)
+    patternIndex += 1
+    index += 1
     continue
   }
 }
@@ -181,8 +207,8 @@ const skipUntilMatch = ({ pattern, string, skippablePredicate = () => true }) =>
     }
 
     // search against the next unattempted string
-    index += matchAttempt.index + 1
     remainingString = remainingString.slice(matchAttempt.index + 1)
+    index += matchAttempt.index + 1
     if (remainingString === "") {
       bestMatch = {
         ...bestMatch,

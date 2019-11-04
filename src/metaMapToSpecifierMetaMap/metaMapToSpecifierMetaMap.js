@@ -1,8 +1,15 @@
 import { isPlainObject } from "../isPlainObject.js"
 
-export const metaMapToSpecifierMetaMap = (metaMap) => {
+export const metaMapToSpecifierMetaMap = (metaMap, ...rest) => {
   if (!isPlainObject(metaMap)) {
     throw new TypeError(`metaMap must be a plain object, got ${metaMap}`)
+  }
+  if (rest.length) {
+    throw new Error(`received more arguments than expected.
+--- number of arguments received ---
+${1 + rest.length}
+--- number of arguments expected ---
+1`)
   }
 
   const specifierMetaMap = {}

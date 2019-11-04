@@ -132,3 +132,16 @@ import { urlToMeta } from "../../index.js"
   const expected = {}
   assert({ actual, expected })
 }
+
+// ensure urlToMeta overrides in order (without sorting specifier keys by length)
+{
+  const actual = urlToMeta({
+    url: "file:///abcd/",
+    specifierMetaMap: {
+      "file:///a*/": { whatever: 41 },
+      "file:///abcd/": { whatever: 42 },
+    },
+  })
+  const expected = { whatever: 42 }
+  assert({ actual, expected })
+}

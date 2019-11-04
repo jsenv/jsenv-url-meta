@@ -2,17 +2,23 @@ import { assertUrlLike } from "../assertUrlLike.js"
 import { assertSpecifierMetaMap } from "../assertSpecifierMetaMap.js"
 import { applySpecifierPatternMatching } from "../applySpecifierPatternMatching/applySpecifierPatternMatching.js"
 
-export const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate }) => {
+export const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate, ...rest }) => {
   assertUrlLike(url, "url")
+  // the function was meants to be used on url ending with '/'
+  if (!url.endsWith("/")) {
+    throw new Error(`url should end with /, got ${url}`)
+  }
   assertSpecifierMetaMap(specifierMetaMap)
   if (typeof predicate !== "function") {
     throw new TypeError(`predicate must be a function, got ${predicate}`)
   }
-
-  // we add a trailing slash because we are intested into what will be inside
-  // this url, not the url itself
-  // it allows to match pattern for what is inside
-  const urlWithTrailingSlash = `${url}/`
+  if (Object.keys(rest).length) {
+    throw new Error(`received more parameters than expected.
+--- name of unexpected parameters ---
+${Object.keys(rest)}
+--- name of expected parameters ---
+url, specifierMetaMap, predicate`)
+  }
 
   // for full match we must create an object to allow pattern to override previous ones
   let fullMatchMeta = {}
@@ -25,7 +31,7 @@ export const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate })
     const meta = specifierMetaMap[specifier]
     const { matched, index } = applySpecifierPatternMatching({
       specifier,
-      url: urlWithTrailingSlash,
+      url,
     })
     if (matched) {
       someFullMatch = true

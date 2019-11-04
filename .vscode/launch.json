@@ -40,21 +40,6 @@
       ]
     },
     {
-      "name": "jsenv-chrome",
-      "type": "chrome",
-      "request": "launch",
-      // won't work on windows https://github.com/Microsoft/vscode/issues/40256
-      // relativeFile use backslashes
-      "url": "http://127.0.0.1:3456/${relativeFile}",
-      "runtimeArgs": ["--allow-file-access-from-files", "--disable-web-security"],
-      "sourceMaps": true,
-      "sourceMapPathOverrides": {
-        "/*": "${workspaceFolder}/*"
-      },
-      "smartStep": true,
-      "skipFiles": ["node_modules/**", "<node_internals>/**/*.js"]
-    },
-    {
       "name": "jsenv-node-attach-child",
       "type": "node",
       "request": "attach",
@@ -64,7 +49,12 @@
       "sourceMapPathOverrides": {
         "/*": "${workspaceFolder}/*"
       },
-      "skipFiles": ["node_modules/**", "<node_internals>/**/*.js"]
+      "skipFiles": [
+        // "node_modules/**",
+        "node_modules/@babel/template/**",
+        "node_modules/@dmail/cancellation/**",
+        "<node_internals>/**/*.js"
+      ]
     }
   ]
 }

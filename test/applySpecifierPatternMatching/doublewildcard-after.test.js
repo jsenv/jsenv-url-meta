@@ -74,7 +74,7 @@ import { applySpecifierPatternMatching } from "../../index.js"
   const expected = {
     matched: true,
     index: 8,
-    patternIndex: 8,
+    patternIndex: 10,
   }
   assert({ actual, expected })
 }

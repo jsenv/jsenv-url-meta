@@ -1,18 +1,18 @@
 import { assert } from "@dmail/assert"
-import { urlToMeta } from "../../index.js"
+import { urlCanContainsMetaMatching } from "../../index.js"
 
-const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate }) => {
-  const meta = urlToMeta({ url, specifierMetaMap })
-  return predicate(meta)
-}
+const meta = { whatever: 42 }
+const metaOverride = { whatever: 43 }
+const predicate = ({ whatever }) => whatever === 42
+
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/",
     specifierMetaMap: {
-      "file:///**/*": { whatever: true },
-      "file:///.git/": { whatever: false },
+      "file:///**/*": meta,
+      "file:///.git/": metaOverride,
     },
-    predicate: ({ whatever }) => whatever,
+    predicate,
   })
   const expected = true
   assert({ actual, expected })
@@ -22,10 +22,10 @@ const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate }) => {
   const actual = urlCanContainsMetaMatching({
     url: "file:///.git/",
     specifierMetaMap: {
-      "file:///**/*": { whatever: true },
-      "file:///.git/": { whatever: false },
+      "file:///**/*": meta,
+      "file:///.git/": metaOverride,
     },
-    predicate: ({ whatever }) => whatever,
+    predicate,
   })
   const expected = false
   assert({ actual, expected })
