@@ -4,4 +4,5 @@ const { projectPath, testDescription } = require("../../jsenv.config.js")
 cover({
   projectPath,
   executeDescription: testDescription,
+  coverageHtmlReport: true,
 })

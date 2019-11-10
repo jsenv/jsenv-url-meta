@@ -82,3 +82,29 @@ try {
   }
   assert({ actual, expected })
 }
+
+try {
+  applySpecifierPatternMatching({
+    specifier: "file:///bar.js",
+    url: "file:///foo.js",
+    foo: "foo",
+  })
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new Error(`received more parameters than expected.
+--- name of unexpected parameters ---
+foo
+--- name of expected parameters ---
+specifier, url`)
+  assert({ actual, expected })
+}
+
+try {
+  applySpecifierPatternMatching(undefined)
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new TypeError(`specifier must be a url string, got undefined`)
+  assert({ actual, expected })
+}

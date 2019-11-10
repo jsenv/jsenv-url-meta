@@ -36,3 +36,39 @@ import { metaMapToSpecifierMetaMap } from "../../index.js"
   }
   assert({ actual, expected })
 }
+
+try {
+  metaMapToSpecifierMetaMap("foo")
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new TypeError(`metaMap must be a plain object, got foo`)
+  assert({ actual, expected })
+}
+
+try {
+  metaMapToSpecifierMetaMap({}, "foo")
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new Error(`received more arguments than expected.
+--- number of arguments received ---
+2
+--- number of arguments expected ---
+1`)
+  assert({ actual, expected })
+}
+
+try {
+  metaMapToSpecifierMetaMap({
+    visible: "foo",
+    whatever: {
+      "file:///a.js": true,
+    },
+  })
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new TypeError(`metaMap value must be plain object, got foo for visible`)
+  assert({ actual, expected })
+}
