@@ -145,3 +145,31 @@ import { urlToMeta } from "../../index.js"
   const expected = { whatever: 42 }
   assert({ actual, expected })
 }
+
+try {
+  urlToMeta({
+    url: "file:///a/dist",
+    specifierMetaMap: {
+      "file:///dist": { a: 0 },
+    },
+    otherParameter: "whatever",
+  })
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new Error(`received more parameters than expected.
+--- name of unexpected parameters ---
+otherParameter
+--- name of expected parameters ---
+url, specifierMetaMap`)
+  assert({ actual, expected })
+}
+
+try {
+  urlToMeta(undefined)
+  throw new Error("shoud crash")
+} catch (error) {
+  const actual = error
+  const expected = new TypeError(`url must be a url string, got undefined`)
+  assert({ actual, expected })
+}
