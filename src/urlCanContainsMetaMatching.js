@@ -1,6 +1,6 @@
-import { assertUrlLike } from "../assertUrlLike.js"
-import { assertSpecifierMetaMap } from "../assertSpecifierMetaMap.js"
-import { applySpecifierPatternMatching } from "../applySpecifierPatternMatching/applySpecifierPatternMatching.js"
+import { assertUrlLike } from "./internal/assertUrlLike.js"
+import { assertSpecifierMetaMap } from "./internal/assertSpecifierMetaMap.js"
+import { applySpecifierPatternMatching } from "./applySpecifierPatternMatching.js"
 
 export const urlCanContainsMetaMatching = ({ url, specifierMetaMap, predicate, ...rest }) => {
   assertUrlLike(url, "url")

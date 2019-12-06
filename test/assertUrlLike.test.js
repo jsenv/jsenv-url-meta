@@ -1,5 +1,5 @@
-import { assert } from "@dmail/assert"
-import { assertUrlLike } from "../src/assertUrlLike.js"
+import { assert } from "@jsenv/assert"
+import { assertUrlLike } from "../src/internal/assertUrlLike.js"
 
 try {
   assertUrlLike(["123"])

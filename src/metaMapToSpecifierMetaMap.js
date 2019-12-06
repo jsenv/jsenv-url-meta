@@ -1,4 +1,4 @@
-import { isPlainObject } from "../isPlainObject.js"
+import { isPlainObject } from "./internal/isPlainObject.js"
 
 export const metaMapToSpecifierMetaMap = (metaMap, ...rest) => {
   if (!isPlainObject(metaMap)) {

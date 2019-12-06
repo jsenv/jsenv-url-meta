@@ -1,4 +1,4 @@
-import { assert } from "@dmail/assert"
+import { assert } from "@jsenv/assert"
 import { urlCanContainsMetaMatching } from "../../index.js"
 
 const meta = { whatever: 42 }

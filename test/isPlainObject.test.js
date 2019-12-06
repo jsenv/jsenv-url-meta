@@ -1,5 +1,5 @@
-import { assert } from "@dmail/assert"
-import { isPlainObject } from "../src/isPlainObject.js"
+import { assert } from "@jsenv/assert"
+import { isPlainObject } from "../src/internal/isPlainObject.js"
 
 {
   const actual = isPlainObject({})
