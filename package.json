@@ -24,7 +24,7 @@
 	"scripts": {
 		"start-exploring": "node ./script/start-exploring/start-exploring.js",
 		"test": "node ./script/test/test.js",
-		"start-continuous-testing": "node ./script/start-continuous-testing/start-continuous-testing.js",
+		"test-with-coverage": "node ./script/test/test.js --coverage",
 		"eslint-check": "eslint .",
 		"prettier-check": "node ./script/prettier-check/prettier-check.js",
 		"upload-coverage": "node ./script/upload-coverage/upload-coverage.js",
@@ -39,16 +39,16 @@
 	},
 	"dependencies": {},
 	"devDependencies": {
-		"@jsenv/assert": "1.1.0",
+		"@jsenv/assert": "1.1.1",
 		"@jsenv/codecov-upload": "2.0.0",
-    "@jsenv/core": "10.0.0-alpha.11",
+		"@jsenv/core": "10.0.0-alpha.11",
 		"@jsenv/eslint-config": "11.3.0",
 		"@jsenv/github-release-package": "1.1.1",
 		"@jsenv/node-module-import-map": "8.6.0",
 		"@jsenv/package-publish": "1.0.0",
 		"@jsenv/prettier-check-project": "4.0.0",
 		"@jsenv/prettier-config": "1.1.0",
-		"eslint": "6.6.0",
+		"eslint": "6.7.2",
 		"prettier": "1.19.1",
 		"rimraf": "3.0.0"
 	}
