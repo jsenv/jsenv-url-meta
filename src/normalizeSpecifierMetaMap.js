@@ -1,5 +1,5 @@
-import { assertSpecifierMetaMap } from "../assertSpecifierMetaMap.js"
-import { assertUrlLike } from "../assertUrlLike.js"
+import { assertSpecifierMetaMap } from "./internal/assertSpecifierMetaMap.js"
+import { assertUrlLike } from "./internal/assertUrlLike.js"
 
 export const normalizeSpecifierMetaMap = (specifierMetaMap, url, ...rest) => {
   assertSpecifierMetaMap(specifierMetaMap)

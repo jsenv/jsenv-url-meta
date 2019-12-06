@@ -81,7 +81,7 @@ The table below gives an idea of how pattern matching behaves.
 
 > `applySpecifierPatternMatching` is a function returning a `matchResult` indicating if and how a `specifier` matches an `url`.<br />
 
-Implemented in [src/applySpecifierPatternMatching/applySpecifierPatternMatching.js](./src/applySpecifierPatternMatching/applySpecifierPatternMatching.js) and could be used as shown below.
+Implemented in [src/applySpecifierPatternMatching.js](./src/applySpecifierPatternMatching.js) and could be used as shown below.
 
 ```js
 import { applySpecifierPatternMatching } from "@jsenv/url-meta"
@@ -174,7 +174,7 @@ Meaning `specifier` partially matched `url` until comparing `url[14]` with `spec
 
 > `metaMapToSpecifierMetaMap` is a function used to convert a `metaMap` into a `specifierMetaMap`.<br />
 
-Implemented in [src/metaMapToSpecifierMetaMap/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap/metaMapToSpecifierMetaMap.js), you can use it as shown below.
+Implemented in [src/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap.js), you can use it as shown below.
 
 ```js
 import { metaMapToSpecifierMetaMap } from "@jsenv/url-meta"
@@ -221,7 +221,7 @@ It is returned by `metaMapToSpecifierMetaMap`.
 
 > `normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`
 
-Implemented in [src/normalizeSpecifierMetaMap/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap/normalizeSpecifierMetaMap.js), you can use it as shown below.
+Implemented in [src/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap.js), you can use it as shown below.
 
 ```js
 import { normalizeSpecifierMetaMap } from "@jsenv/url-meta"
@@ -239,7 +239,7 @@ const specifierMetaMapNormalized = normalizeSpecifierMetaMap(
 
 > `urlCanContainsMetaMatching` is a function designed to ignore directory content that would never have specific metas.
 
-Implemented in [src/urlCanContainsMetaMatching/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching/urlCanContainsMetaMatching.js), you can use it as shown below.
+Implemented in [src/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching.js), you can use it as shown below.
 
 ```js
 import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
@@ -282,7 +282,7 @@ file:///node_modules/src/ can contains meta matching blue predicate: false
 
 > `urlToMeta` is a function returning an object being the composition of all object associated with a matching specifier.
 
-Implemented in [src/urlToMeta/urlToMeta.js](./src/urlToMeta/urlToMeta.js), you can use it as shown below.
+Implemented in [src/urlToMeta.js](./src/urlToMeta.js), you can use it as shown below.
 
 ```js
 import { urlToMeta } from "@jsenv/url-meta"

@@ -1,5 +1,5 @@
-import { assert } from "@dmail/assert"
-import { assertSpecifierMetaMap } from "../src/assertSpecifierMetaMap.js"
+import { assert } from "@jsenv/assert"
+import { assertSpecifierMetaMap } from "../src/internal/assertSpecifierMetaMap.js"
 
 try {
   assertSpecifierMetaMap("foo")

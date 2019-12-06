@@ -1,7 +1,7 @@
 // https://git-scm.com/docs/gitignore
 // https://github.com/kaelzhang/node-ignore
 
-import { assertUrlLike } from "../assertUrlLike.js"
+import { assertUrlLike } from "./internal/assertUrlLike.js"
 
 export const applySpecifierPatternMatching = ({ specifier, url, ...rest } = {}) => {
   assertUrlLike(specifier, "specifier")

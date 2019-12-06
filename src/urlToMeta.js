@@ -1,6 +1,6 @@
-import { assertSpecifierMetaMap } from "../assertSpecifierMetaMap.js"
-import { assertUrlLike } from "../assertUrlLike.js"
-import { applySpecifierPatternMatching } from "../applySpecifierPatternMatching/applySpecifierPatternMatching.js"
+import { assertSpecifierMetaMap } from "./internal/assertSpecifierMetaMap.js"
+import { assertUrlLike } from "./internal/assertUrlLike.js"
+import { applySpecifierPatternMatching } from "./applySpecifierPatternMatching.js"
 
 export const urlToMeta = ({ url, specifierMetaMap, ...rest } = {}) => {
   assertUrlLike(url)
