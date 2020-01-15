@@ -16,7 +16,7 @@ const isWindowsPathnameSpecifier = (specifier) => {
   const secondChar = specifier[1]
   if (secondChar !== ":") return false
   const thirdChar = specifier[2]
-  return thirdChar === "/"
+  return thirdChar === "/" || thirdChar === "\\"
 }
 
 const hasScheme = (specifier) => /^[a-zA-Z]+:/.test(specifier)

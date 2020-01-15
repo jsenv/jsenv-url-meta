@@ -1,32 +1,27 @@
-# Url meta
+# url-meta
+
+Associate data to urls using patterns.
 
 [![github package](https://img.shields.io/github/package-json/v/jsenv/jsenv-url-meta.svg?logo=github&label=package)](https://github.com/jsenv/jsenv-url-meta/packages)
 [![npm package](https://img.shields.io/npm/v/@jsenv/url-meta.svg?logo=npm&label=package)](https://www.npmjs.com/package/@jsenv/url-meta)
 [![github ci](https://github.com/jsenv/jsenv-url-meta/workflows/ci/badge.svg)](https://github.com/jsenv/jsenv-url-meta/actions?workflow=ci)
 [![codecov coverage](https://codecov.io/gh/jsenv/jsenv-url-meta/branch/master/graph/badge.svg)](https://codecov.io/gh/jsenv/jsenv-url-meta)
 
-Associate data to urls using patterns.
-
 ## Table of contents
 
 - [Presentation](#Presentation)
-- [Code example](#code-example)
-- [Pattern matching behaviour](#specifier-pattern-matching-behaviour)
-- [api](#api)
+- [Installation](#Installation)
+- [Documentation](#Documentation)
+  - [Pattern matching behaviour](#specifier-pattern-matching-behaviour)
   - [applySpecifierPatternMatching](#applySpecifierPatternMatching)
   - [metaMapToSpecifierMetaMap](#metaMapToSpecifierMetaMap)
   - [normalizeSpecifierMetaMap](#normalizeSpecifierMetaMap)
   - [urlCanContainsMetaMatching](#urlCanContainsMetaMatching)
   - [urlToMeta](#urlToMeta)
-- [Installation](#installation)
 
-## Presentation
-
-`jsenv-url-meta` github repository corresponds to `@jsenv/url-meta` package published on github and npm package registries.
+# Presentation
 
 `@jsenv/url-meta` can be used to associate value to urls. You can associate a value to many urls using pattern matching.
-
-## Code example
 
 ```js
 import { urlToMeta } from "@jsenv/url-meta"
@@ -57,6 +52,14 @@ http://example.com/file.json color is black
 http://example.com/file.js color is red
 ```
 
+# Installation
+
+```console
+npm install @jsenv/url-meta@5.1.0
+```
+
+# Documentation
+
 ## Pattern matching behaviour
 
 The table below gives an idea of how pattern matching behaves.
@@ -71,17 +74,9 @@ The table below gives an idea of how pattern matching behaves.
 | `http://example.com/whatever/file.js`  | `http://example.com/whatever/file.js` | true    |
 | `http://example.com/whatever/file.jsx` | `http://example.com/whatever/file.js` | false   |
 
-## api
+## applySpecifierPatternMatching
 
-`@jsenv/url-meta` api is documented here.
-
----
-
-### applySpecifierPatternMatching
-
-> `applySpecifierPatternMatching` is a function returning a `matchResult` indicating if and how a `specifier` matches an `url`.<br />
-
-Implemented in [src/applySpecifierPatternMatching.js](./src/applySpecifierPatternMatching.js) and could be used as shown below.
+`applySpecifierPatternMatching` is a function returning a `matchResult` indicating if and how a `specifier` matches an `url`.
 
 ```js
 import { applySpecifierPatternMatching } from "@jsenv/url-meta"
@@ -91,90 +86,45 @@ const matchResult = applySpecifierPatternMatching({
   url: "file://Users/directory/file.js",
 })
 
-console.log(matchResult.matched)
+matchResult.matched // true
 ```
 
-Logs
+— source code at [src/createLogger.js](./src/createLogger.js).
 
-```console
-true
-```
+### specifier
 
-#### specifier
+`specifier` parameter is a string looking like an url but where `*` and `**` can be used so that one specifier can match several url. This parameter is **required**.
 
-> `specifier` is a string looking like an url but where `*` and `**` can be used so that one specifier can match several url.
+### url
 
-This parameter is **required**, an example value could be:
+`url` parameter is a string representing a url. This parameter is **required**.
+
+### matchResult
+
+`matchResult` represents if and how `specifier` matches `url`. It is returned by `applySpecifierPatternMatching`.
 
 ```js
-"http://example.com/**/*.js"
-```
-
-#### url
-
-> `url` is a string representing a url.
-
-This parameter is **required**, an example value could be:
-
-```js
-"http://example.com/directory/file.js"
-```
-
-#### matchResult
-
-> `matchResult` represents if and how `specifier` matches `url`.
-
-It is returned by `applySpecifierPatternMatching`, see below some example.
-
-##### Matching example
-
-```js
-applySpecifierPatternMatching({
+const fullMatch = applySpecifierPatternMatching({
   specifier: "file:///**/*",
   url: "file://Users/directory/file.js",
 })
-```
+fullMatch // { matched: true, index: 31, patternIndex: 12 }
 
-Returns
-
-```js
-{
-  matched: true,
-  index: 31,
-  patternIndex: 12,
-}
-```
-
-Meaning `specifier` fully matched `url`.
-
-##### Failing example
-
-```js
-applySpecifierPatternMatching({
+const partialMatch = applySpecifierPatternMatching({
   specifier: "file:///*.js",
   url: "file:///file.jsx",
 })
+partialMatch // { matched: false, index: 14, patternIndex: 14 }
 ```
 
-Returns
-
-```js
-{
-  matched: false,
-  index: 14,
-  patternIndex: 14,
-}
-```
-
-Meaning `specifier` partially matched `url` until comparing `url[14]` with `specifier[14]`
+fullMatch object indicates `specifier` fully matched `url`.<br />
+partialMatch object indicates `specifier` matched `url` until comparing `url[14]` with `specifier[14]`.
 
 ---
 
-### metaMapToSpecifierMetaMap
+## metaMapToSpecifierMetaMap
 
-> `metaMapToSpecifierMetaMap` is a function used to convert a `metaMap` into a `specifierMetaMap`.<br />
-
-Implemented in [src/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap.js), you can use it as shown below.
+`metaMapToSpecifierMetaMap` is a function used to convert a `metaMap` into a `specifierMetaMap`.
 
 ```js
 import { metaMapToSpecifierMetaMap } from "@jsenv/url-meta"
@@ -203,25 +153,21 @@ Returns
 }
 ```
 
-#### metaMap
+— source code at [src/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap.js).
 
-> `metaMap` is an object where values are conditionnaly applied by specifiers.
+### metaMap
 
-This parameter is **required**.
+`metaMap` parameter is an object where values are conditionnaly applied by specifiers. This parameter is **required**.
 
-#### specifierMetaMap
+### specifierMetaMap
 
-> `specifierMetaMap` is an object where meta (other objects) are conditionnaly applied by specifier.
-
-It is returned by `metaMapToSpecifierMetaMap`.
+`specifierMetaMap` is an object where meta (other objects) are conditionnaly applied by specifier. It is returned by `metaMapToSpecifierMetaMap`.
 
 ---
 
-### normalizeSpecifierMetaMap
+## normalizeSpecifierMetaMap
 
-> `normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`
-
-Implemented in [src/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap.js), you can use it as shown below.
+`normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`.
 
 ```js
 import { normalizeSpecifierMetaMap } from "@jsenv/url-meta"
@@ -235,11 +181,13 @@ const specifierMetaMapNormalized = normalizeSpecifierMetaMap(
 )
 ```
 
-### urlCanContainsMetaMatching
+— source code at [src/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap.js).
 
-> `urlCanContainsMetaMatching` is a function designed to ignore directory content that would never have specific metas.
+---
 
-Implemented in [src/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching.js), you can use it as shown below.
+## urlCanContainsMetaMatching
+
+`urlCanContainsMetaMatching` is a function designed to ignore directory content that would never have specific metas.
 
 ```js
 import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
@@ -278,11 +226,13 @@ file:///src/ can contains meta matching blue predicate: true
 file:///node_modules/src/ can contains meta matching blue predicate: false
 ```
 
-### urlToMeta
+— source code at [src/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching.js).
 
-> `urlToMeta` is a function returning an object being the composition of all object associated with a matching specifier.
+---
 
-Implemented in [src/urlToMeta.js](./src/urlToMeta.js), you can use it as shown below.
+## urlToMeta
+
+`urlToMeta` is a function returning an object being the composition of all object associated with a matching specifier.
 
 ```js
 import { urlToMeta } from "@jsenv/url-meta"
@@ -315,16 +265,4 @@ file:///src/file.json: {
 }
 ```
 
-## Installation
-
-If you have never installed a jsenv package, read [Installing a jsenv package](https://github.com/jsenv/jsenv-core/blob/master/docs/installing-jsenv-package.md#installing-a-jsenv-package) before going further.
-
-This documentation is up-to-date with a specific version so prefer any of the following commands
-
-```console
-npm install --save-dev @jsenv/url-meta@4.1.0
-```
-
-```console
-yarn add --dev @jsenv/url-meta@4.1.0
-```
+— source code at [src/urlToMeta.js](./src/urlToMeta.js).

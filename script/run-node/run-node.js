@@ -3,6 +3,7 @@ const jsenvConfig = require("../../jsenv.config.js")
 
 execute({
   ...jsenvConfig,
-  launch: launchNode,
+  launch: (options) => launchNode({ ...options, debugPort: 40000 }),
   fileRelativeUrl: process.argv[2],
+  stopPlatformAfterExecute: false,
 })
