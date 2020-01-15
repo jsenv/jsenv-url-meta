@@ -34,10 +34,11 @@
 		"upload-coverage": "node ./script/upload-coverage/upload-coverage.js",
 		"generate-import-map": "node ./script/generate-import-map/generate-import-map.js",
 		"install-git-hooks": "node ./script/install-git-hooks/install-git-hooks.js",
-		"clean": "rimraf coverage",
+		"dist": "npm run clean && npm run generate-commonjs-bundle",
+		"clean": "rimraf dist && rimraf coverage",
 		"reinstall": "npm run clean && rimraf node_modules && npm install",
 		"postinstall": "npm run generate-import-map && npm run install-git-hooks",
-		"prepublishOnly": "node ./script/transform-package/remove-postinstall.js",
+		"prepublishOnly": "node ./script/transform-package/remove-postinstall.js && npm run dist",
 		"postpublish": "node ./script/transform-package/restore-postinstall.js",
 		"git-hook-pre-commit": "npm run prettier-format-stage"
 	},
