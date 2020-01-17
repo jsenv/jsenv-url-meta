@@ -65,9 +65,16 @@ const applyPatternMatching = (pattern, string) => {
     // fast path trailing slash
     if (remainingPattern === "/") {
       // pass because trailing slash matches remaining
-      return pass({
-        patternIndex: patternIndex + 1,
-        index: string.length,
+      if (remainingString[0] === "/") {
+        return pass({
+          patternIndex: patternIndex + 1,
+          index: string.length,
+        })
+      }
+
+      return fail({
+        patternIndex,
+        index,
       })
     }
 

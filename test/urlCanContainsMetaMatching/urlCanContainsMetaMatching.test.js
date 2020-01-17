@@ -6,6 +6,19 @@ const metaOverride = { whatever: 43 }
 const predicate = ({ whatever }) => whatever === 42
 
 {
+  const actual = urlCanContainsMetaMatching({
+    url: "file:///.github/",
+    specifierMetaMap: {
+      "file:///**/.github/": { source: true },
+      "file:///**/.git/": { source: false },
+    },
+    predicate: ({ source }) => source,
+  })
+  const expected = true
+  assert({ actual, expected })
+}
+
+{
   const specifierMetaMap = {
     "file:///a/b/": meta,
   }

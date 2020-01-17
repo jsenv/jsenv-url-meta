@@ -1,6 +1,19 @@
 import { assert } from "@jsenv/assert"
 import { applySpecifierPatternMatching } from "../../index.js"
 
+{
+  const actual = applySpecifierPatternMatching({
+    specifier: "file:///.git/",
+    url: "file:///.github/",
+  })
+  const expected = {
+    matched: false,
+    index: 12,
+    patternIndex: 12,
+  }
+  assert({ actual, expected })
+}
+
 try {
   applySpecifierPatternMatching({
     specifier: 10,
