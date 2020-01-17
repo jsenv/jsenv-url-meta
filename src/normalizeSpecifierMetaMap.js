@@ -2,7 +2,7 @@ import { assertSpecifierMetaMap } from "./internal/assertSpecifierMetaMap.js"
 import { assertUrlLike } from "./internal/assertUrlLike.js"
 
 export const normalizeSpecifierMetaMap = (specifierMetaMap, url, ...rest) => {
-  assertSpecifierMetaMap(specifierMetaMap)
+  assertSpecifierMetaMap(specifierMetaMap, false)
   assertUrlLike(url, "url")
   if (rest.length) {
     throw new Error(`received more arguments than expected.

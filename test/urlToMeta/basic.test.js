@@ -2,6 +2,42 @@ import { assert } from "@jsenv/assert"
 import { urlToMeta } from "../../index.js"
 
 {
+  const url = "file:///file"
+  const specifierMetaMap = {
+    "/file": true,
+  }
+  try {
+    urlToMeta({
+      url,
+      specifierMetaMap,
+    })
+  } catch (actual) {
+    const expected = new TypeError(
+      `specifierMetaMap key must be a url and no scheme found, got /file`,
+    )
+    assert({ actual, expected })
+  }
+}
+
+{
+  const url = "file:///"
+  const specifierMetaMap = {
+    "file:///foo": true,
+  }
+  try {
+    urlToMeta({
+      url,
+      specifierMetaMap,
+    })
+  } catch (actual) {
+    const expected = new TypeError(
+      `specifierMetaMap value must be a plain object or null, got true under key file:///foo`,
+    )
+    assert({ actual, expected })
+  }
+}
+
+{
   const actual = urlToMeta({
     url: "file:///",
     specifierMetaMap: {
