@@ -191,9 +191,16 @@ var applyPatternMatching = function applyPatternMatching(pattern, string) {
 
     if (remainingPattern === "/") {
       // pass because trailing slash matches remaining
-      return pass({
-        patternIndex: patternIndex + 1,
-        index: string.length
+      if (remainingString[0] === "/") {
+        return pass({
+          patternIndex: patternIndex + 1,
+          index: string.length
+        });
+      }
+
+      return fail({
+        patternIndex: patternIndex,
+        index: index
       });
     } // fast path trailing '**'
 
@@ -433,14 +440,27 @@ var metaMapToSpecifierMetaMap = function metaMapToSpecifierMetaMap(metaMap) {
 };
 
 var assertSpecifierMetaMap = function assertSpecifierMetaMap(value) {
+  var checkComposition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
   if (!isPlainObject(value)) {
     throw new TypeError("specifierMetaMap must be a plain object, got ".concat(value));
-  } // we could ensure it's key/value pair of url like key/object or null values
+  }
 
+  if (checkComposition) {
+    var plainObject = value;
+    Object.keys(plainObject).forEach(function (key) {
+      assertUrlLike(key, "specifierMetaMap key");
+      var value = plainObject[key];
+
+      if (value !== null && !isPlainObject(value)) {
+        throw new TypeError("specifierMetaMap value must be a plain object or null, got ".concat(value, " under key ").concat(key));
+      }
+    });
+  }
 };
 
 var normalizeSpecifierMetaMap = function normalizeSpecifierMetaMap(specifierMetaMap, url) {
-  assertSpecifierMetaMap(specifierMetaMap);
+  assertSpecifierMetaMap(specifierMetaMap, false);
   assertUrlLike(url, "url");
 
   if (arguments.length <= 2 ? 0 : arguments.length - 2) {
