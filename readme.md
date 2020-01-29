@@ -55,7 +55,7 @@ http://example.com/file.js color is red
 # Installation
 
 ```console
-npm install @jsenv/url-meta@5.1.1
+npm install @jsenv/url-meta@5.2.2
 ```
 
 # Documentation
