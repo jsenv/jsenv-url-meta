@@ -58,6 +58,8 @@ http://example.com/file.js color is red
 npm install @jsenv/url-meta@5.2.2
 ```
 
+Works with node 12.8.0, 13.7.0, other versions not tested.
+
 # Documentation
 
 ## Pattern matching behaviour
