@@ -12,11 +12,8 @@ jobs:
   ci:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, ubuntu-latest]
       max-parallel: 1 # to ensure windows failure can prevent ubuntu from publishing package
-      # With fail-fast enabled window process may hang up forever with Terminate batch job (Y/N)?
-      # https://github.community/t5/GitHub-Actions/Actions-Windows-quot-Terminate-Batch-Job-Y-N-quot/td-p/30642
-      fail-fast: false
     runs-on: ${{ matrix.os }}
     name: node 12 on ${{ matrix.os }}
     env:
