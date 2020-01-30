@@ -1,4 +1,4 @@
-const { executeTestPlan, launchNode, launchChromium } = require("@jsenv/core")
+const { executeTestPlan, launchNode, launchChromiumTab } = require("@jsenv/core")
 const jsenvConfig = require("../../jsenv.config.js")
 
 executeTestPlan({
@@ -6,7 +6,7 @@ executeTestPlan({
   testPlan: {
     "test/**/*.test.js": {
       chromium: {
-        launch: launchChromium,
+        launch: launchChromiumTab,
       },
       node: {
         launch: launchNode,
