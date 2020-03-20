@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var _defineProperty = (function (obj, key, value) {
   // Shortcircuit the slow defineProperty path when possible.
   // We are trying to avoid issues where setters defined on the
@@ -559,9 +555,5 @@ var urlToMeta = function urlToMeta() {
   }, {});
 };
 
-exports.applySpecifierPatternMatching = applySpecifierPatternMatching;
-exports.metaMapToSpecifierMetaMap = metaMapToSpecifierMetaMap;
-exports.normalizeSpecifierMetaMap = normalizeSpecifierMetaMap;
-exports.urlCanContainsMetaMatching = urlCanContainsMetaMatching;
-exports.urlToMeta = urlToMeta;
+export { applySpecifierPatternMatching, metaMapToSpecifierMetaMap, normalizeSpecifierMetaMap, urlCanContainsMetaMatching, urlToMeta };
 //# sourceMappingURL=main.js.map
