@@ -160,7 +160,6 @@ Returns
 
 `specifierMetaMap` is an object where meta (other objects) are conditionnaly applied by specifier. It is returned by `metaMapToSpecifierMetaMap`.
 
-
 # normalizeSpecifierMetaMap
 
 `normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`.
