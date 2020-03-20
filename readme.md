@@ -11,13 +11,12 @@ Associate data to urls using patterns.
 
 - [Presentation](#Presentation)
 - [Installation](#Installation)
-- [Documentation](#Documentation)
-  - [Pattern matching behaviour](#specifier-pattern-matching-behaviour)
-  - [applySpecifierPatternMatching](#applySpecifierPatternMatching)
-  - [metaMapToSpecifierMetaMap](#metaMapToSpecifierMetaMap)
-  - [normalizeSpecifierMetaMap](#normalizeSpecifierMetaMap)
-  - [urlCanContainsMetaMatching](#urlCanContainsMetaMatching)
-  - [urlToMeta](#urlToMeta)
+- [Pattern matching behaviour](#specifier-pattern-matching-behaviour)
+- [applySpecifierPatternMatching](#applySpecifierPatternMatching)
+- [metaMapToSpecifierMetaMap](#metaMapToSpecifierMetaMap)
+- [normalizeSpecifierMetaMap](#normalizeSpecifierMetaMap)
+- [urlCanContainsMetaMatching](#urlCanContainsMetaMatching)
+- [urlToMeta](#urlToMeta)
 
 # Presentation
 
@@ -55,14 +54,12 @@ http://example.com/file.js color is red
 # Installation
 
 ```console
-npm install @jsenv/url-meta@5.2.2
+npm install @jsenv/url-meta
 ```
 
-Works with node 12.8.0, 13.7.0, other versions not tested.
+Works with node 13.7.0 and 12.8.0 other versions not tested.
 
-# Documentation
-
-## Pattern matching behaviour
+# Pattern matching behaviour
 
 The table below gives an idea of how pattern matching behaves.
 
@@ -76,7 +73,7 @@ The table below gives an idea of how pattern matching behaves.
 | `http://example.com/whatever/file.js`  | `http://example.com/whatever/file.js` | true    |
 | `http://example.com/whatever/file.jsx` | `http://example.com/whatever/file.js` | false   |
 
-## applySpecifierPatternMatching
+# applySpecifierPatternMatching
 
 `applySpecifierPatternMatching` is a function returning a `matchResult` indicating if and how a `specifier` matches an `url`.
 
@@ -93,15 +90,15 @@ matchResult.matched // true
 
 — source code at [src/createLogger.js](./src/createLogger.js).
 
-### specifier
+## specifier
 
 `specifier` parameter is a string looking like an url but where `*` and `**` can be used so that one specifier can match several url. This parameter is **required**.
 
-### url
+## url
 
 `url` parameter is a string representing a url. This parameter is **required**.
 
-### matchResult
+## matchResult
 
 `matchResult` represents if and how `specifier` matches `url`. It is returned by `applySpecifierPatternMatching`.
 
@@ -122,9 +119,7 @@ partialMatch // { matched: false, index: 14, patternIndex: 14 }
 fullMatch object indicates `specifier` fully matched `url`.<br />
 partialMatch object indicates `specifier` matched `url` until comparing `url[14]` with `specifier[14]`.
 
----
-
-## metaMapToSpecifierMetaMap
+# metaMapToSpecifierMetaMap
 
 `metaMapToSpecifierMetaMap` is a function used to convert a `metaMap` into a `specifierMetaMap`.
 
@@ -157,17 +152,15 @@ Returns
 
 — source code at [src/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap.js).
 
-### metaMap
+## metaMap
 
 `metaMap` parameter is an object where values are conditionnaly applied by specifiers. This parameter is **required**.
 
-### specifierMetaMap
+## specifierMetaMap
 
 `specifierMetaMap` is an object where meta (other objects) are conditionnaly applied by specifier. It is returned by `metaMapToSpecifierMetaMap`.
 
----
-
-## normalizeSpecifierMetaMap
+# normalizeSpecifierMetaMap
 
 `normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`.
 
@@ -185,9 +178,7 @@ const specifierMetaMapNormalized = normalizeSpecifierMetaMap(
 
 — source code at [src/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap.js).
 
----
-
-## urlCanContainsMetaMatching
+# urlCanContainsMetaMatching
 
 `urlCanContainsMetaMatching` is a function designed to ignore directory content that would never have specific metas.
 
@@ -230,9 +221,7 @@ file:///node_modules/src/ can contains meta matching blue predicate: false
 
 — source code at [src/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching.js).
 
----
-
-## urlToMeta
+# urlToMeta
 
 `urlToMeta` is a function returning an object being the composition of all object associated with a matching specifier.
 
