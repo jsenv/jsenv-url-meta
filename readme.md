@@ -11,7 +11,8 @@ Associate data to urls using patterns.
 
 - [Presentation](#Presentation)
 - [Installation](#Installation)
-- [Pattern matching behaviour](#specifier-pattern-matching-behaviour)
+- [Pattern matching behaviour](#pattern-matching-behaviour)
+- [List of common pattern](#list-of-common-pattern)
 - [applySpecifierPatternMatching](#applySpecifierPatternMatching)
 - [metaMapToSpecifierMetaMap](#metaMapToSpecifierMetaMap)
 - [normalizeSpecifierMetaMap](#normalizeSpecifierMetaMap)
@@ -72,6 +73,15 @@ The table below gives an idea of how pattern matching behaves.
 | `http://example.com/**/*.js`           | `http://example.com/whatever/file.js` | true    |
 | `http://example.com/whatever/file.js`  | `http://example.com/whatever/file.js` | true    |
 | `http://example.com/whatever/file.jsx` | `http://example.com/whatever/file.js` | false   |
+
+# List of common pattern
+
+| Use case                                          | specifier |
+| ------------------------------------------------- | --------- |
+| Any file                                          | `**/`     |
+| Only root files (not inside a directory)          | `*`       |
+| Only files inside a directory (not at root level) | `*/**/`   |
+| Only file inside directory starting with a dot    | `**/.*/`  |
 
 # applySpecifierPatternMatching
 
