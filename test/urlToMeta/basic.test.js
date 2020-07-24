@@ -38,6 +38,21 @@ import { urlToMeta } from "../../index.js"
 }
 
 {
+  const url = "file:///file"
+  const specifierMetaMap = {
+    "file:///*.js": { whatever: true },
+    "file:///file.js": null,
+  }
+
+  const actual = urlToMeta({
+    url,
+    specifierMetaMap,
+  })
+  const expected = {}
+  assert({ actual, expected })
+}
+
+{
   const actual = urlToMeta({
     url: "file:///",
     specifierMetaMap: {
