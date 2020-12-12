@@ -11,8 +11,7 @@ Associate data to urls using patterns.
 
 - [Presentation](#Presentation)
 - [Installation](#Installation)
-- [Pattern matching behaviour](#pattern-matching-behaviour)
-- [List of common pattern](#list-of-common-pattern)
+- [Pattern matching](#pattern-matching)
 - [applySpecifierPatternMatching](#applySpecifierPatternMatching)
 - [metaMapToSpecifierMetaMap](#metaMapToSpecifierMetaMap)
 - [normalizeSpecifierMetaMap](#normalizeSpecifierMetaMap)
@@ -21,12 +20,12 @@ Associate data to urls using patterns.
 
 # Presentation
 
-`@jsenv/url-meta` can be used to associate value to urls. You can associate a value to many urls using pattern matching.
+`@jsenv/url-meta` can be used to associate value to urls. You can associate object to many urls using pattern matching.
 
 ```js
 import { urlToMeta } from "@jsenv/url-meta"
 
-// note how specifierMetaMap object below associates object to urls
+// associates url patterns and objects
 const specifierMetaMap = {
   "http://example.com/*": {
     color: "black",
@@ -37,12 +36,12 @@ const specifierMetaMap = {
 }
 
 const urlA = "http://example.com/file.json"
-const urlAMeta = urlToMeta({ specifierMetaMap, url: urlA }).color
+const urlAColor = urlToMeta({ url: urlA, specifierMetaMap }).color
 const urlB = "http://example.com/file.js"
-const urlBMeta = urlToMeta({ specifierMetaMap, url: urlB }).color
+const urlBColor = urlToMeta({ url: urlB, specifierMetaMap }).color
 
-console.log(`${urlA} color is ${urlAMeta.color}`)
-console.log(`${urlB} color is ${urlBMeta.color}`)
+console.log(`${urlA} color is ${urlAColor}`)
+console.log(`${urlB} color is ${urlBColor}`)
 ```
 
 Code above logs
@@ -58,34 +57,55 @@ http://example.com/file.js color is red
 npm install @jsenv/url-meta
 ```
 
-Works with node 13.7.0 and 12.8.0 other versions not tested.
+Works with node 13.7.0 and 12.8.0. Other versions not tested.
 
-# Pattern matching behaviour
+# Pattern matching
 
-The table below gives an idea of how pattern matching behaves.
+<details>
+  <summary>Pattern matching example</summary>
 
-| specifier                              | url                                   | matches |
-| -------------------------------------- | ------------------------------------- | ------- |
-| `http://example.com/whatever`          | `http://example.com/whatever/file.js` | false   |
-| `http://example.com/whatever/`         | `http://example.com/whatever/file.js` | true    |
-| `http://example.com/whatever/*.js`     | `http://example.com/whatever/file.js` | true    |
-| `http://example.com/whatever/**/*.js`  | `http://example.com/whatever/file.js` | true    |
-| `http://example.com/**/*.js`           | `http://example.com/whatever/file.js` | true    |
-| `http://example.com/whatever/file.js`  | `http://example.com/whatever/file.js` | true    |
-| `http://example.com/whatever/file.jsx` | `http://example.com/whatever/file.js` | false   |
+Some example of specifiers applied to `file:///whatever/file.js`
 
-# List of common pattern
+| specifier                   | matches |
+| --------------------------- | ------- |
+| `file:///whatever`          | false   |
+| `file:///whatever/`         | true    |
+| `file:///whatever/*.js`     | true    |
+| `file:///whatever/**/*.js`  | true    |
+| `file:///**/*.js`           | true    |
+| `file:///whatever/file.js`  | true    |
+| `file:///whatever/file.jsx` | false   |
 
-| Use case                                          | specifier |
-| ------------------------------------------------- | --------- |
-| Any file                                          | `**/`     |
-| Only root files (not inside a directory)          | `*`       |
-| Only files inside a directory (not at root level) | `*/**/`   |
-| Only file inside directory starting with a dot    | `**/.*/`  |
+</details>
+
+<details>
+  <summary>Common pattern example</summary>
+
+| specifier          | Description                          |
+| ------------------ | ------------------------------------ |
+| `**/`              | Everything                           |
+| `*/**/`            | Inside a directory                   |
+| `**/.*/`           | Inside directory starting with a dot |
+| `**/node_modules/` | Inside `node_modules` directory      |
+| `**/*.map`         | Ending with `.map`                   |
+| `**/*.test.*`      | Contains `test`                      |
+
+> `**/` and `**/*` are equivalent
+
+More examples that should be rarely used in practice:
+
+| specifier | Description                   |
+| --------- | ----------------------------- |
+| `*/*`     | Inside a directory of depth 1 |
+
+</details>
 
 # applySpecifierPatternMatching
 
 `applySpecifierPatternMatching` is a function returning a `matchResult` indicating if and how a `specifier` matches an `url`.
+
+<details>
+  <summary>applySpecifierPatternMatching code example</summary>
 
 ```js
 import { applySpecifierPatternMatching } from "@jsenv/url-meta"
@@ -99,6 +119,8 @@ matchResult.matched // true
 ```
 
 — source code at [src/createLogger.js](./src/createLogger.js).
+
+</details>
 
 ## specifier
 
@@ -133,6 +155,9 @@ partialMatch object indicates `specifier` matched `url` until comparing `url[14]
 
 `metaMapToSpecifierMetaMap` is a function used to convert a `metaMap` into a `specifierMetaMap`.
 
+<details>
+  <summary>metaMapToSpecifierMetaMap code example</summary>
+
 ```js
 import { metaMapToSpecifierMetaMap } from "@jsenv/url-meta"
 
@@ -162,6 +187,8 @@ Returns
 
 — source code at [src/metaMapToSpecifierMetaMap.js](./src/metaMapToSpecifierMetaMap.js).
 
+</details>
+
 ## metaMap
 
 `metaMap` parameter is an object where values are conditionnaly applied by specifiers. This parameter is **required**.
@@ -173,6 +200,9 @@ Returns
 # normalizeSpecifierMetaMap
 
 `normalizeSpecifierMetaMap` is a function resolving `specifierMetaMap` keys against an `url`.
+
+<details>
+  <summary>normalizeSpecifierMetaMap code example</summary>
 
 ```js
 import { normalizeSpecifierMetaMap } from "@jsenv/url-meta"
@@ -188,9 +218,14 @@ const specifierMetaMapNormalized = normalizeSpecifierMetaMap(
 
 — source code at [src/normalizeSpecifierMetaMap.js](./src/normalizeSpecifierMetaMap.js).
 
+</details>
+
 # urlCanContainsMetaMatching
 
 `urlCanContainsMetaMatching` is a function designed to ignore directory content that would never have specific metas.
+
+<details>
+  <summary>urlCanContainsMetaMatching code example</summary>
 
 ```js
 import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
@@ -231,9 +266,14 @@ file:///node_modules/src/ can contains meta matching blue predicate: false
 
 — source code at [src/urlCanContainsMetaMatching.js](./src/urlCanContainsMetaMatching.js).
 
+</details>
+
 # urlToMeta
 
 `urlToMeta` is a function returning an object being the composition of all object associated with a matching specifier.
+
+<details>
+  <summary>urlToMeta code example</summary>
 
 ```js
 import { urlToMeta } from "@jsenv/url-meta"
@@ -267,3 +307,5 @@ file:///src/file.json: {
 ```
 
 — source code at [src/urlToMeta.js](./src/urlToMeta.js).
+
+</details>
