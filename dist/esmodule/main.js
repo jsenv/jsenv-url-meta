@@ -349,7 +349,7 @@ var skipUntilMatch = function skipUntilMatch(_ref2) {
     index += matchAttempt.index + 1;
 
     if (remainingString === "") {
-      bestMatch = _objectSpread({}, bestMatch, {
+      bestMatch = _objectSpread(_objectSpread({}, bestMatch), {}, {
         index: string.length
       });
       break;
@@ -429,7 +429,7 @@ var metaMapToSpecifierMetaMap = function metaMapToSpecifierMetaMap(metaMap) {
 
       var meta = _defineProperty({}, metaKey, metaValue);
 
-      specifierMetaMap[specifier] = specifier in specifierMetaMap ? _objectSpread({}, specifierMetaMap[specifier], {}, meta) : meta;
+      specifierMetaMap[specifier] = specifier in specifierMetaMap ? _objectSpread(_objectSpread({}, specifierMetaMap[specifier]), meta) : meta;
     });
   });
   return specifierMetaMap;
@@ -511,7 +511,7 @@ var urlCanContainsMetaMatching = function urlCanContainsMetaMatching(_ref) {
 
     if (matched) {
       someFullMatch = true;
-      fullMatchMeta = _objectSpread({}, fullMatchMeta, {}, meta);
+      fullMatchMeta = _objectSpread(_objectSpread({}, fullMatchMeta), meta);
     } else if (someFullMatch === false && index >= url.length) {
       partialMatchMetaArray.push(meta);
     }
@@ -548,7 +548,7 @@ var urlToMeta = function urlToMeta() {
         matched = _applySpecifierPatter.matched;
 
     if (matched) {
-      return _objectSpread({}, previousMeta, {}, specifierMetaMap[specifier]);
+      return _objectSpread(_objectSpread({}, previousMeta), specifierMetaMap[specifier]);
     }
 
     return previousMeta;
@@ -556,4 +556,5 @@ var urlToMeta = function urlToMeta() {
 };
 
 export { applySpecifierPatternMatching, metaMapToSpecifierMetaMap, normalizeSpecifierMetaMap, urlCanContainsMetaMatching, urlToMeta };
+
 //# sourceMappingURL=main.js.map

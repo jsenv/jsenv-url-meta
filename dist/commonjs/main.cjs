@@ -472,4 +472,5 @@ exports.metaMapToSpecifierMetaMap = metaMapToSpecifierMetaMap;
 exports.normalizeSpecifierMetaMap = normalizeSpecifierMetaMap;
 exports.urlCanContainsMetaMatching = urlCanContainsMetaMatching;
 exports.urlToMeta = urlToMeta;
+
 //# sourceMappingURL=main.cjs.map
