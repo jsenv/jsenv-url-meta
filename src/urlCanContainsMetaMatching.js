@@ -16,7 +16,7 @@ export const urlCanContainsMetaMatching = ({ url, structuredMetaMap, predicate, 
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-url, specifierMetaMap, predicate`)
+url, structuredMetaMap, predicate`)
   }
 
   const metaMap = structuredMetaMapToMetaMap(structuredMetaMap)

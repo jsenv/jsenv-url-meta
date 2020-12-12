@@ -1,18 +1,16 @@
 import { assert } from "@jsenv/assert"
 import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
 
-const meta = { whatever: 42 }
-const metaOverride = { whatever: 43 }
-const predicate = ({ whatever }) => whatever === 42
-
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/",
     structuredMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   const expected = true
   assert({ actual, expected })
@@ -22,10 +20,12 @@ const predicate = ({ whatever }) => whatever === 42
   const actual = urlCanContainsMetaMatching({
     url: "file:///.git/",
     structuredMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   const expected = false
   assert({ actual, expected })
@@ -35,10 +35,12 @@ try {
   urlCanContainsMetaMatching({
     url: "file:///.git",
     structuredMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   throw new Error("shoud crash")
 } catch (error) {
@@ -51,8 +53,10 @@ try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
     structuredMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
     predicate: "I'm a string",
   })
@@ -67,10 +71,12 @@ try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
     structuredMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
     otherParameter: "whatever",
   })
   throw new Error("shoud crash")

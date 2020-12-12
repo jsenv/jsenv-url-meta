@@ -12,9 +12,7 @@ import { urlToMeta } from "@jsenv/url-meta"
       structuredMetaMap,
     })
   } catch (actual) {
-    const expected = new TypeError(
-      `structuredMetaMap key must be a url and no scheme found, got /file`,
-    )
+    const expected = new TypeError(`metaValueMap must be plain object, got true for /file`)
     assert({ actual, expected })
   }
 }
@@ -30,9 +28,7 @@ import { urlToMeta } from "@jsenv/url-meta"
       structuredMetaMap,
     })
   } catch (actual) {
-    const expected = new TypeError(
-      `structuredMetaMap value must be a plain object or null, got true under key file:///foo`,
-    )
+    const expected = new TypeError("metaValueMap must be plain object, got true for file:///foo")
     assert({ actual, expected })
   }
 }

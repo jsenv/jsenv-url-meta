@@ -4,14 +4,18 @@ import { normalizeStructuredMetaMap } from "@jsenv/url-meta"
 {
   const actual = normalizeStructuredMetaMap(
     {
-      "./a.js": { whatever: true },
-      "http://example.com/file.js": { whatever: true },
+      whatever: {
+        "./a.js": true,
+        "http://example.com/file.js": true,
+      },
     },
     "file:///User/name/directory/",
   )
   const expected = {
-    "file:///User/name/directory/a.js": { whatever: true },
-    "http://example.com/file.js": { whatever: true },
+    whatever: {
+      "file:///User/name/directory/a.js": true,
+      "http://example.com/file.js": true,
+    },
   }
   assert({ actual, expected })
 }
@@ -20,14 +24,18 @@ import { normalizeStructuredMetaMap } from "@jsenv/url-meta"
 {
   const actual = normalizeStructuredMetaMap(
     {
-      "./a.js": 42,
-      "./long.js": 42,
+      whatever: {
+        "./a.js": 42,
+        "./long.js": 42,
+      },
     },
     "file:///",
   )
   const expected = {
-    "file:///a.js": 42,
-    "file:///long.js": 42,
+    whatever: {
+      "file:///a.js": 42,
+      "file:///long.js": 42,
+    },
   }
   assert({ actual, expected })
 }
@@ -35,8 +43,10 @@ import { normalizeStructuredMetaMap } from "@jsenv/url-meta"
 try {
   normalizeStructuredMetaMap(
     {
-      "./a.js": 42,
-      "./long.js": 42,
+      whatever: {
+        "./a.js": 42,
+        "./long.js": 42,
+      },
     },
     "file:///",
     "something else",
