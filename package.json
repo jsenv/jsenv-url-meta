@@ -1,6 +1,6 @@
 {
 	"name": "@jsenv/url-meta",
-	"version": "5.3.0",
+	"version": "6.0.0",
 	"description": "Associate data to urls using patterns.",
 	"license": "MIT",
 	"repository": {

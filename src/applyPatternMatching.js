@@ -3,20 +3,20 @@
 
 import { assertUrlLike } from "./internal/assertUrlLike.js"
 
-export const applySpecifierPatternMatching = ({ specifier, url, ...rest } = {}) => {
-  assertUrlLike(specifier, "specifier")
+export const applyPatternMatching = ({ pattern, url, ...rest } = {}) => {
+  assertUrlLike(pattern, "pattern")
   assertUrlLike(url, "url")
   if (Object.keys(rest).length) {
     throw new Error(`received more parameters than expected.
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-specifier, url`)
+pattern, url`)
   }
-  return applyPatternMatching(specifier, url)
+  return applyMatching(pattern, url)
 }
 
-const applyPatternMatching = (pattern, string) => {
+const applyMatching = (pattern, string) => {
   let patternIndex = 0
   let index = 0
   let remainingPattern = pattern
@@ -193,7 +193,7 @@ const skipUntilMatch = ({ pattern, string, skippablePredicate = () => true }) =>
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
-    const matchAttempt = applyPatternMatching(pattern, remainingString)
+    const matchAttempt = applyMatching(pattern, remainingString)
 
     if (matchAttempt.matched) {
       bestMatch = matchAttempt

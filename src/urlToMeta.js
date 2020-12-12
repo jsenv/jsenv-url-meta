@@ -1,27 +1,28 @@
-import { assertSpecifierMetaMap } from "./internal/assertSpecifierMetaMap.js"
 import { assertUrlLike } from "./internal/assertUrlLike.js"
+import { structuredMetaMapToMetaMap } from "./internal/structuredMetaMapToMetaMap.js"
 import { applySpecifierPatternMatching } from "./applySpecifierPatternMatching.js"
 
-export const urlToMeta = ({ url, specifierMetaMap, ...rest } = {}) => {
+export const urlToMeta = ({ url, structuredMetaMap, ...rest } = {}) => {
   assertUrlLike(url)
-  assertSpecifierMetaMap(specifierMetaMap)
   if (Object.keys(rest).length) {
     throw new Error(`received more parameters than expected.
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-url, specifierMetaMap`)
+url, structuredMetaMap`)
   }
 
-  return Object.keys(specifierMetaMap).reduce((previousMeta, specifier) => {
+  const metaMap = structuredMetaMapToMetaMap(structuredMetaMap)
+  return Object.keys(metaMap).reduce((previousMeta, pattern) => {
     const { matched } = applySpecifierPatternMatching({
-      specifier,
+      pattern,
       url,
     })
     if (matched) {
+      const meta = metaMap[pattern]
       return {
         ...previousMeta,
-        ...specifierMetaMap[specifier],
+        ...meta,
       }
     }
     return previousMeta
