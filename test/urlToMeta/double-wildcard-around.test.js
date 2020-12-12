@@ -1,11 +1,13 @@
 import { assert } from "@jsenv/assert"
-import { urlToMeta } from "../../index.js"
+import { urlToMeta } from "@jsenv/url-meta"
 
 {
   const actual = urlToMeta({
     url: "file:///a",
-    specifierMetaMap: {
-      "file:///**/a/**": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/a/**": true,
+      },
     },
   })
   const expected = {}
@@ -15,8 +17,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b",
-    specifierMetaMap: {
-      "file:///**/a/**": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/a/**": true,
+      },
     },
   })
   const expected = { a: true }
@@ -26,8 +30,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///b/a/c",
-    specifierMetaMap: {
-      "file:///**/a/**": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/a/**": true,
+      },
     },
   })
   const expected = { a: true }

@@ -1,7 +1,9 @@
-import { generateEsModuleBundle } from "@jsenv/core"
+import { buildProject } from "@jsenv/core"
 import * as jsenvConfig from "../../jsenv.config.js"
 
-generateEsModuleBundle({
+buildProject({
   ...jsenvConfig,
-  bundleDirectoryClean: true,
+  entryPointMap: {
+    "./index.js": "./main.js",
+  },
 })

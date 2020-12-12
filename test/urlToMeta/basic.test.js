@@ -1,52 +1,50 @@
 import { assert } from "@jsenv/assert"
-import { urlToMeta } from "../../index.js"
+import { urlToMeta } from "@jsenv/url-meta"
 
 {
   const url = "file:///file"
-  const specifierMetaMap = {
+  const structuredMetaMap = {
     "/file": true,
   }
   try {
     urlToMeta({
       url,
-      specifierMetaMap,
+      structuredMetaMap,
     })
   } catch (actual) {
-    const expected = new TypeError(
-      `specifierMetaMap key must be a url and no scheme found, got /file`,
-    )
+    const expected = new TypeError(`metaValueMap must be plain object, got true for /file`)
     assert({ actual, expected })
   }
 }
 
 {
   const url = "file:///"
-  const specifierMetaMap = {
+  const structuredMetaMap = {
     "file:///foo": true,
   }
   try {
     urlToMeta({
       url,
-      specifierMetaMap,
+      structuredMetaMap,
     })
   } catch (actual) {
-    const expected = new TypeError(
-      `specifierMetaMap value must be a plain object or null, got true under key file:///foo`,
-    )
+    const expected = new TypeError("metaValueMap must be plain object, got true for file:///foo")
     assert({ actual, expected })
   }
 }
 
 {
   const url = "file:///file"
-  const specifierMetaMap = {
-    "file:///*.js": { whatever: true },
-    "file:///file.js": null,
+  const structuredMetaMap = {
+    whatever: {
+      "file:///*.js": true,
+      "file:///file.js": null,
+    },
   }
 
   const actual = urlToMeta({
     url,
-    specifierMetaMap,
+    structuredMetaMap,
   })
   const expected = {}
   assert({ actual, expected })
@@ -55,8 +53,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///",
-    specifierMetaMap: {
-      "file:///foo": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///foo": true,
+      },
     },
   })
   const expected = {}
@@ -66,8 +66,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///foo",
-    specifierMetaMap: {
-      "file:///foo": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///foo": true,
+      },
     },
   })
   const expected = { a: true }
@@ -77,8 +79,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a",
-    specifierMetaMap: {
-      "file:///a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a": true,
+      },
     },
   })
   const expected = { a: true }
@@ -88,8 +92,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a.js",
-    specifierMetaMap: {
-      "file:///a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a": true,
+      },
     },
   })
   const expected = {}
@@ -99,8 +105,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b",
-    specifierMetaMap: {
-      "file:///a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a": true,
+      },
     },
   })
   const expected = {}
@@ -110,8 +118,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b.js",
-    specifierMetaMap: {
-      "file:///a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a": true,
+      },
     },
   })
   const expected = {}
@@ -121,8 +131,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///b/a",
-    specifierMetaMap: {
-      "file:///b/a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///b/a": true,
+      },
     },
   })
   const expected = { a: true }
@@ -132,8 +144,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///b/a.js",
-    specifierMetaMap: {
-      "file:///b/a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///b/a": true,
+      },
     },
   })
   const expected = {}
@@ -143,8 +157,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///b/c",
-    specifierMetaMap: {
-      "file:///b/a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///b/a": true,
+      },
     },
   })
   const expected = {}
@@ -154,8 +170,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///b/a/c",
-    specifierMetaMap: {
-      "file:///b/a": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///b/a": true,
+      },
     },
   })
   const expected = {}
@@ -165,8 +183,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///dist",
-    specifierMetaMap: {
-      "file:///dist": { a: 0 },
+    structuredMetaMap: {
+      a: {
+        "file:///dist": 0,
+      },
     },
   })
   const expected = { a: 0 }
@@ -176,8 +196,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/dist",
-    specifierMetaMap: {
-      "file:///dist": { a: 0 },
+    structuredMetaMap: {
+      a: {
+        "file:///dist": 0,
+      },
     },
   })
   const expected = {}
@@ -188,9 +210,11 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///abcd/",
-    specifierMetaMap: {
-      "file:///a*/": { whatever: 41 },
-      "file:///abcd/": { whatever: 42 },
+    structuredMetaMap: {
+      whatever: {
+        "file:///a*/": 41,
+        "file:///abcd/": 42,
+      },
     },
   })
   const expected = { whatever: 42 }
@@ -200,8 +224,10 @@ import { urlToMeta } from "../../index.js"
 try {
   urlToMeta({
     url: "file:///a/dist",
-    specifierMetaMap: {
-      "file:///dist": { a: 0 },
+    structuredMetaMap: {
+      a: {
+        "file:///dist": 0,
+      },
     },
     otherParameter: "whatever",
   })
@@ -212,7 +238,7 @@ try {
 --- name of unexpected parameters ---
 otherParameter
 --- name of expected parameters ---
-url, specifierMetaMap`)
+url, structuredMetaMap`)
   assert({ actual, expected })
 }
 

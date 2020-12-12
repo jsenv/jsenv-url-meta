@@ -1,9 +1,9 @@
 import { assert } from "@jsenv/assert"
-import { applySpecifierPatternMatching } from "../../index.js"
+import { applyPatternMatching } from "@jsenv/url-meta"
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///**/a/**/",
+  const actual = applyPatternMatching({
+    pattern: "file:///**/a/**/",
     url: "file:///a",
   })
   const expected = {
@@ -15,8 +15,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///**/a/**/",
+  const actual = applyPatternMatching({
+    pattern: "file:///**/a/**/",
     url: "file:///a/b/c.js",
   })
   const expected = {
@@ -28,8 +28,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///**/a/**/",
+  const actual = applyPatternMatching({
+    pattern: "file:///**/a/**/",
     url: "file:///b/a/c.js",
   })
   const expected = {

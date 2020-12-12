@@ -1,8 +1,8 @@
 import { assert } from "@jsenv/assert"
-import { metaMapToSpecifierMetaMap } from "../../index.js"
+import { structuredMetaMapToMetaMap } from "@jsenv/url-meta/src/internal/structuredMetaMapToMetaMap.js"
 
 {
-  const actual = metaMapToSpecifierMetaMap({
+  const actual = structuredMetaMapToMetaMap({
     visible: {
       "file:///a.js": true,
       "file:///b.js": false,
@@ -20,7 +20,7 @@ import { metaMapToSpecifierMetaMap } from "../../index.js"
 }
 
 {
-  const actual = metaMapToSpecifierMetaMap({
+  const actual = structuredMetaMapToMetaMap({
     visible: {
       "file:///a.js": true,
     },
@@ -38,16 +38,16 @@ import { metaMapToSpecifierMetaMap } from "../../index.js"
 }
 
 try {
-  metaMapToSpecifierMetaMap("foo")
+  structuredMetaMapToMetaMap("foo")
   throw new Error("shoud crash")
 } catch (error) {
   const actual = error
-  const expected = new TypeError(`metaMap must be a plain object, got foo`)
+  const expected = new TypeError(`structuredMetaMap must be a plain object, got foo`)
   assert({ actual, expected })
 }
 
 try {
-  metaMapToSpecifierMetaMap({}, "foo")
+  structuredMetaMapToMetaMap({}, "foo")
   throw new Error("shoud crash")
 } catch (error) {
   const actual = error
@@ -60,7 +60,7 @@ try {
 }
 
 try {
-  metaMapToSpecifierMetaMap({
+  structuredMetaMapToMetaMap({
     visible: "foo",
     whatever: {
       "file:///a.js": true,
@@ -69,6 +69,6 @@ try {
   throw new Error("shoud crash")
 } catch (error) {
   const actual = error
-  const expected = new TypeError(`metaMap value must be plain object, got foo for visible`)
+  const expected = new TypeError(`metaValueMap must be plain object, got foo for visible`)
   assert({ actual, expected })
 }

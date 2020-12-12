@@ -1,9 +1,9 @@
 import { assert } from "@jsenv/assert"
-import { applySpecifierPatternMatching } from "../../index.js"
+import { applyPatternMatching } from "@jsenv/url-meta"
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///.git/",
+  const actual = applyPatternMatching({
+    pattern: "file:///.git/",
     url: "file:///.github/",
   })
   const expected = {
@@ -15,40 +15,40 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 try {
-  applySpecifierPatternMatching({
-    specifier: 10,
+  applyPatternMatching({
+    pattern: 10,
   })
   throw new Error("should throw")
 } catch (actual) {
-  const expected = new TypeError("specifier must be a url string, got 10")
+  const expected = new TypeError("pattern must be a url string, got 10")
   assert({ actual, expected })
 }
 
 try {
-  applySpecifierPatternMatching({
-    specifier: "C://Users/folder/file.js",
+  applyPatternMatching({
+    pattern: "C://Users/folder/file.js",
   })
   throw new Error("should throw")
 } catch (actual) {
   const expected = new TypeError(
-    "specifier must be a url but looks like a windows pathname, got C://Users/folder/file.js",
+    "pattern must be a url but looks like a windows pathname, got C://Users/folder/file.js",
   )
   assert({ actual, expected })
 }
 
 try {
-  applySpecifierPatternMatching({
-    specifier: "hello",
+  applyPatternMatching({
+    pattern: "hello",
   })
   throw new Error("should throw")
 } catch (actual) {
-  const expected = new TypeError("specifier must be a url and no scheme found, got hello")
+  const expected = new TypeError("pattern must be a url and no scheme found, got hello")
   assert({ actual, expected })
 }
 
 try {
-  applySpecifierPatternMatching({
-    specifier: "http://",
+  applyPatternMatching({
+    pattern: "http://",
     url: 10,
   })
   throw new Error("should throw")
@@ -58,8 +58,8 @@ try {
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///foo.js",
+  const actual = applyPatternMatching({
+    pattern: "file:///foo.js",
     url: "file:///foo.js",
   })
   const expected = {
@@ -71,8 +71,8 @@ try {
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "http:///foo.js",
+  const actual = applyPatternMatching({
+    pattern: "http:///foo.js",
     url: "file:///foo.js",
   })
   const expected = {
@@ -84,8 +84,8 @@ try {
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///bar.js",
+  const actual = applyPatternMatching({
+    pattern: "file:///bar.js",
     url: "file:///foo.js",
   })
   const expected = {
@@ -97,8 +97,8 @@ try {
 }
 
 try {
-  applySpecifierPatternMatching({
-    specifier: "file:///bar.js",
+  applyPatternMatching({
+    pattern: "file:///bar.js",
     url: "file:///foo.js",
     foo: "foo",
   })
@@ -109,15 +109,15 @@ try {
 --- name of unexpected parameters ---
 foo
 --- name of expected parameters ---
-specifier, url`)
+pattern, url`)
   assert({ actual, expected })
 }
 
 try {
-  applySpecifierPatternMatching(undefined)
+  applyPatternMatching(undefined)
   throw new Error("shoud crash")
 } catch (error) {
   const actual = error
-  const expected = new TypeError(`specifier must be a url string, got undefined`)
+  const expected = new TypeError(`pattern must be a url string, got undefined`)
   assert({ actual, expected })
 }

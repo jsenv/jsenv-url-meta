@@ -1,18 +1,16 @@
 import { assert } from "@jsenv/assert"
-import { urlCanContainsMetaMatching } from "../../index.js"
-
-const meta = { whatever: 42 }
-const metaOverride = { whatever: 43 }
-const predicate = ({ whatever }) => whatever === 42
+import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
 
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/",
-    specifierMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   const expected = true
   assert({ actual, expected })
@@ -21,11 +19,13 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   const expected = false
   assert({ actual, expected })
@@ -34,11 +34,13 @@ const predicate = ({ whatever }) => whatever === 42
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git",
-    specifierMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
   })
   throw new Error("shoud crash")
 } catch (error) {
@@ -50,9 +52,11 @@ try {
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
     predicate: "I'm a string",
   })
@@ -66,11 +70,13 @@ try {
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
-      "file:///**/*": meta,
-      "file:///.git/": metaOverride,
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": 42,
+        "file:///.git/": 43,
+      },
     },
-    predicate,
+    predicate: ({ whatever }) => whatever === 42,
     otherParameter: "whatever",
   })
   throw new Error("shoud crash")
@@ -80,6 +86,6 @@ try {
 --- name of unexpected parameters ---
 otherParameter
 --- name of expected parameters ---
-url, specifierMetaMap, predicate`)
+url, structuredMetaMap, predicate`)
   assert({ actual, expected })
 }

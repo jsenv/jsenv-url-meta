@@ -1,9 +1,9 @@
 import { assert } from "@jsenv/assert"
-import { applySpecifierPatternMatching } from "../../index.js"
+import { applyPatternMatching } from "@jsenv/url-meta"
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///abc",
   })
   const expected = {
@@ -15,8 +15,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///Za",
   })
   const expected = {
@@ -28,8 +28,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///aZ",
   })
   const expected = {
@@ -41,8 +41,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///ZZa",
   })
   const expected = {
@@ -54,8 +54,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///aZZ",
   })
   const expected = {
@@ -67,8 +67,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///ZaZ",
   })
   const expected = {
@@ -80,8 +80,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
 }
 
 {
-  const actual = applySpecifierPatternMatching({
-    specifier: "file:///*a*",
+  const actual = applyPatternMatching({
+    pattern: "file:///*a*",
     url: "file:///ZZaZZ",
   })
   const expected = {

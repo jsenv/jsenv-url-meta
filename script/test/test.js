@@ -10,7 +10,7 @@ import * as jsenvConfig from "../../jsenv.config.js"
 executeTestPlan({
   ...jsenvConfig,
   testPlan: {
-    "test/**/*.test.js": {
+    "test/**/*.test.html": {
       chromium: {
         launch: launchChromiumTab,
       },
@@ -20,6 +20,8 @@ executeTestPlan({
       webkit: {
         launch: launchWebkitTab,
       },
+    },
+    "test/**/*.test.js": {
       node: {
         launch: launchNode,
       },

@@ -1,12 +1,12 @@
 import { assert } from "@jsenv/assert"
-import { applySpecifierPatternMatching } from "../../index.js"
+import { applyPatternMatching } from "@jsenv/url-meta"
 
 // any file
 {
-  const specifier = "file:///**/"
+  const pattern = "file:///**/"
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///file.js",
     })
     const expected = true
@@ -14,8 +14,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/file.js",
     })
     const expected = true
@@ -23,8 +23,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///.git/dir/file.js",
     })
     const expected = true
@@ -34,10 +34,10 @@ import { applySpecifierPatternMatching } from "../../index.js"
 
 // only root files
 {
-  const specifier = "file:///*"
+  const pattern = "file:///*"
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///file.js",
     })
     const expected = true
@@ -45,8 +45,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/file.js",
     })
     const expected = false
@@ -54,8 +54,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/foo/file.js",
     })
     const expected = false
@@ -65,10 +65,10 @@ import { applySpecifierPatternMatching } from "../../index.js"
 
 // only files inside directory
 {
-  const specifier = "file:///*/**"
+  const pattern = "file:///*/**"
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///file.js",
     })
     const expected = false
@@ -76,8 +76,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/file.js",
     })
     const expected = true
@@ -85,8 +85,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/foo/file.js",
     })
     const expected = true
@@ -96,10 +96,10 @@ import { applySpecifierPatternMatching } from "../../index.js"
 
 // only files inside directory starting with .
 {
-  const specifier = "file:///**/.*/*"
+  const pattern = "file:///**/.*/*"
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///.git/file.js",
     })
     const expected = true
@@ -107,8 +107,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/.git/file.js",
     })
     const expected = true
@@ -116,8 +116,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///file.js",
     })
     const expected = false
@@ -125,8 +125,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///dir/file.js",
     })
     const expected = false
@@ -134,8 +134,8 @@ import { applySpecifierPatternMatching } from "../../index.js"
   }
 
   {
-    const { matched: actual } = applySpecifierPatternMatching({
-      specifier,
+    const { matched: actual } = applyPatternMatching({
+      pattern,
       url: "file:///.file.js",
     })
     const expected = false

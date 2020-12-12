@@ -28,12 +28,12 @@ const isWindowsPathnameSpecifier = specifier => {
 const hasScheme = specifier => /^[a-zA-Z]+:/.test(specifier);
 
 // https://git-scm.com/docs/gitignore
-const applySpecifierPatternMatching = ({
-  specifier,
+const applyPatternMatching = ({
+  pattern,
   url,
   ...rest
 } = {}) => {
-  assertUrlLike(specifier, "specifier");
+  assertUrlLike(pattern, "pattern");
   assertUrlLike(url, "url");
 
   if (Object.keys(rest).length) {
@@ -41,13 +41,13 @@ const applySpecifierPatternMatching = ({
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-specifier, url`);
+pattern, url`);
   }
 
-  return applyPatternMatching(specifier, url);
+  return applyMatching(pattern, url);
 };
 
-const applyPatternMatching = (pattern, string) => {
+const applyMatching = (pattern, string) => {
   let patternIndex = 0;
   let index = 0;
   let remainingPattern = pattern;
@@ -230,7 +230,7 @@ const skipUntilMatch = ({
   let bestMatch = null; // eslint-disable-next-line no-constant-condition
 
   while (true) {
-    const matchAttempt = applyPatternMatching(pattern, remainingString);
+    const matchAttempt = applyMatching(pattern, remainingString);
 
     if (matchAttempt.matched) {
       bestMatch = matchAttempt;
@@ -286,6 +286,31 @@ const fail = ({
   };
 };
 
+const normalizeStructuredMetaMap = (structuredMetaMap, url, ...rest) => {
+  assertUrlLike(url, "url");
+
+  if (rest.length) {
+    throw new Error(`received more arguments than expected.
+--- number of arguments received ---
+${2 + rest.length}
+--- number of arguments expected ---
+2`);
+  }
+
+  const structuredMetaMapNormalized = {};
+  Object.keys(structuredMetaMap).forEach(metaProperty => {
+    const metaValueMap = structuredMetaMap[metaProperty];
+    const metaValueMapNormalized = {};
+    Object.keys(metaValueMap).forEach(pattern => {
+      const metaValue = metaValueMap[pattern];
+      const specifierResolved = String(new URL(pattern, url));
+      metaValueMapNormalized[specifierResolved] = metaValue;
+    });
+    structuredMetaMapNormalized[metaProperty] = metaValueMapNormalized;
+  });
+  return structuredMetaMapNormalized;
+};
+
 const isPlainObject = value => {
   if (value === null) {
     return false;
@@ -302,9 +327,9 @@ const isPlainObject = value => {
   return false;
 };
 
-const metaMapToSpecifierMetaMap = (metaMap, ...rest) => {
-  if (!isPlainObject(metaMap)) {
-    throw new TypeError(`metaMap must be a plain object, got ${metaMap}`);
+const structuredMetaMapToMetaMap = (structuredMetaMap, ...rest) => {
+  if (!isPlainObject(structuredMetaMap)) {
+    throw new TypeError(`structuredMetaMap must be a plain object, got ${structuredMetaMap}`);
   }
 
   if (rest.length) {
@@ -315,68 +340,30 @@ ${1 + rest.length}
 1`);
   }
 
-  const specifierMetaMap = {};
-  Object.keys(metaMap).forEach(metaKey => {
-    const specifierValueMap = metaMap[metaKey];
+  const metaMap = {};
+  Object.keys(structuredMetaMap).forEach(metaProperty => {
+    const metaValueMap = structuredMetaMap[metaProperty];
 
-    if (!isPlainObject(specifierValueMap)) {
-      throw new TypeError(`metaMap value must be plain object, got ${specifierValueMap} for ${metaKey}`);
+    if (!isPlainObject(metaValueMap)) {
+      throw new TypeError(`metaValueMap must be plain object, got ${metaValueMap} for ${metaProperty}`);
     }
 
-    Object.keys(specifierValueMap).forEach(specifier => {
-      const metaValue = specifierValueMap[specifier];
+    Object.keys(metaValueMap).forEach(pattern => {
+      const metaValue = metaValueMap[pattern];
       const meta = {
-        [metaKey]: metaValue
+        [metaProperty]: metaValue
       };
-      specifierMetaMap[specifier] = specifier in specifierMetaMap ? { ...specifierMetaMap[specifier],
+      metaMap[pattern] = pattern in metaMap ? { ...metaMap[pattern],
         ...meta
       } : meta;
     });
   });
-  return specifierMetaMap;
-};
-
-const assertSpecifierMetaMap = (value, checkComposition = true) => {
-  if (!isPlainObject(value)) {
-    throw new TypeError(`specifierMetaMap must be a plain object, got ${value}`);
-  }
-
-  if (checkComposition) {
-    const plainObject = value;
-    Object.keys(plainObject).forEach(key => {
-      assertUrlLike(key, "specifierMetaMap key");
-      const value = plainObject[key];
-
-      if (value !== null && !isPlainObject(value)) {
-        throw new TypeError(`specifierMetaMap value must be a plain object or null, got ${value} under key ${key}`);
-      }
-    });
-  }
-};
-
-const normalizeSpecifierMetaMap = (specifierMetaMap, url, ...rest) => {
-  assertSpecifierMetaMap(specifierMetaMap, false);
-  assertUrlLike(url, "url");
-
-  if (rest.length) {
-    throw new Error(`received more arguments than expected.
---- number of arguments received ---
-${2 + rest.length}
---- number of arguments expected ---
-2`);
-  }
-
-  const specifierMetaMapNormalized = {};
-  Object.keys(specifierMetaMap).forEach(specifier => {
-    const specifierResolved = String(new URL(specifier, url));
-    specifierMetaMapNormalized[specifierResolved] = specifierMetaMap[specifier];
-  });
-  return specifierMetaMapNormalized;
+  return metaMap;
 };
 
 const urlCanContainsMetaMatching = ({
   url,
-  specifierMetaMap,
+  structuredMetaMap,
   predicate,
   ...rest
 }) => {
@@ -385,8 +372,6 @@ const urlCanContainsMetaMatching = ({
   if (!url.endsWith("/")) {
     throw new Error(`url should end with /, got ${url}`);
   }
-
-  assertSpecifierMetaMap(specifierMetaMap);
 
   if (typeof predicate !== "function") {
     throw new TypeError(`predicate must be a function, got ${predicate}`);
@@ -397,22 +382,23 @@ const urlCanContainsMetaMatching = ({
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-url, specifierMetaMap, predicate`);
-  } // for full match we must create an object to allow pattern to override previous ones
+url, structuredMetaMap, predicate`);
+  }
 
+  const metaMap = structuredMetaMapToMetaMap(structuredMetaMap); // for full match we must create an object to allow pattern to override previous ones
 
   let fullMatchMeta = {};
   let someFullMatch = false; // for partial match, any meta satisfying predicate will be valid because
   // we don't know for sure if pattern will still match for a file inside pathname
 
   const partialMatchMetaArray = [];
-  Object.keys(specifierMetaMap).forEach(specifier => {
-    const meta = specifierMetaMap[specifier];
+  Object.keys(metaMap).forEach(pattern => {
+    const meta = metaMap[pattern];
     const {
       matched,
       index
-    } = applySpecifierPatternMatching({
-      specifier,
+    } = applyPatternMatching({
+      pattern,
       url
     });
 
@@ -435,31 +421,32 @@ url, specifierMetaMap, predicate`);
 
 const urlToMeta = ({
   url,
-  specifierMetaMap,
+  structuredMetaMap,
   ...rest
 } = {}) => {
   assertUrlLike(url);
-  assertSpecifierMetaMap(specifierMetaMap);
 
   if (Object.keys(rest).length) {
     throw new Error(`received more parameters than expected.
 --- name of unexpected parameters ---
 ${Object.keys(rest)}
 --- name of expected parameters ---
-url, specifierMetaMap`);
+url, structuredMetaMap`);
   }
 
-  return Object.keys(specifierMetaMap).reduce((previousMeta, specifier) => {
+  const metaMap = structuredMetaMapToMetaMap(structuredMetaMap);
+  return Object.keys(metaMap).reduce((previousMeta, pattern) => {
     const {
       matched
-    } = applySpecifierPatternMatching({
-      specifier,
+    } = applyPatternMatching({
+      pattern,
       url
     });
 
     if (matched) {
+      const meta = metaMap[pattern];
       return { ...previousMeta,
-        ...specifierMetaMap[specifier]
+        ...meta
       };
     }
 
@@ -467,9 +454,9 @@ url, specifierMetaMap`);
   }, {});
 };
 
-exports.applySpecifierPatternMatching = applySpecifierPatternMatching;
-exports.metaMapToSpecifierMetaMap = metaMapToSpecifierMetaMap;
-exports.normalizeSpecifierMetaMap = normalizeSpecifierMetaMap;
+exports.applyPatternMatching = applyPatternMatching;
+exports.normalizeStructuredMetaMap = normalizeStructuredMetaMap;
 exports.urlCanContainsMetaMatching = urlCanContainsMetaMatching;
 exports.urlToMeta = urlToMeta;
+
 //# sourceMappingURL=main.cjs.map

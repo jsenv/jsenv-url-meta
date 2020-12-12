@@ -1,12 +1,14 @@
 import { assert } from "@jsenv/assert"
-import { urlToMeta } from "../../index.js"
+import { urlToMeta } from "@jsenv/url-meta"
 
 {
   const actual = urlToMeta({
     url: "file:///file.js",
-    specifierMetaMap: {
-      "file:///**/*": { whatever: true },
-      "file:///.git/": { whatever: false },
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": true,
+        "file:///.git/": false,
+      },
     },
   })
   const expected = { whatever: true }
@@ -16,9 +18,11 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///.git/file.js",
-    specifierMetaMap: {
-      "file:///**/*": { whatever: true },
-      "file:///.git/": { whatever: false },
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": true,
+        "file:///.git/": false,
+      },
     },
   })
   const expected = { whatever: false }
@@ -28,9 +32,11 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///file.js",
-    specifierMetaMap: {
-      "file:///**/*": { whatever: false },
-      "file:///*": { whatever: true },
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": false,
+        "file:///*": true,
+      },
     },
   })
   const expected = { whatever: true }
@@ -40,9 +46,11 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///.git/file.js",
-    specifierMetaMap: {
-      "file:///**/*": { whatever: false },
-      "file:///*": { whatever: true },
+    structuredMetaMap: {
+      whatever: {
+        "file:///**/*": false,
+        "file:///*": true,
+      },
     },
   })
   const expected = { whatever: false }
