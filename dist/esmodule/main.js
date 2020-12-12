@@ -123,24 +123,24 @@ var hasScheme = function hasScheme(specifier) {
   return /^[a-zA-Z]+:/.test(specifier);
 };
 
-var applySpecifierPatternMatching = function applySpecifierPatternMatching() {
+var applyPatternMatching = function applyPatternMatching() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var specifier = _ref.specifier,
+  var pattern = _ref.pattern,
       url = _ref.url,
-      rest = _objectWithoutProperties(_ref, ["specifier", "url"]);
+      rest = _objectWithoutProperties(_ref, ["pattern", "url"]);
 
-  assertUrlLike(specifier, "specifier");
+  assertUrlLike(pattern, "pattern");
   assertUrlLike(url, "url");
 
   if (Object.keys(rest).length) {
-    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\nspecifier, url"));
+    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\npattern, url"));
   }
 
-  return applyPatternMatching(specifier, url);
+  return applyMatching(pattern, url);
 };
 
-var applyPatternMatching = function applyPatternMatching(pattern, string) {
+var applyMatching = function applyMatching(pattern, string) {
   var patternIndex = 0;
   var index = 0;
   var remainingPattern = pattern;
@@ -327,7 +327,7 @@ var skipUntilMatch = function skipUntilMatch(_ref2) {
   var bestMatch = null; // eslint-disable-next-line no-constant-condition
 
   while (true) {
-    var matchAttempt = applyPatternMatching(pattern, remainingString);
+    var matchAttempt = applyMatching(pattern, remainingString);
 
     if (matchAttempt.matched) {
       bestMatch = matchAttempt;
@@ -381,6 +381,27 @@ var fail = function fail(_ref4) {
   };
 };
 
+var normalizeStructuredMetaMap = function normalizeStructuredMetaMap(structuredMetaMap, url) {
+  assertUrlLike(url, "url");
+
+  if (arguments.length <= 2 ? 0 : arguments.length - 2) {
+    throw new Error("received more arguments than expected.\n--- number of arguments received ---\n".concat(2 + (arguments.length <= 2 ? 0 : arguments.length - 2), "\n--- number of arguments expected ---\n2"));
+  }
+
+  var structuredMetaMapNormalized = {};
+  Object.keys(structuredMetaMap).forEach(function (metaProperty) {
+    var metaValueMap = structuredMetaMap[metaProperty];
+    var metaValueMapNormalized = {};
+    Object.keys(metaValueMap).forEach(function (pattern) {
+      var metaValue = metaValueMap[pattern];
+      var specifierResolved = String(new URL(pattern, url));
+      metaValueMapNormalized[specifierResolved] = metaValue;
+    });
+    structuredMetaMapNormalized[metaProperty] = metaValueMapNormalized;
+  });
+  return structuredMetaMapNormalized;
+};
+
 var nativeTypeOf = function nativeTypeOf(obj) {
   return typeof obj;
 };
@@ -407,75 +428,39 @@ var isPlainObject = function isPlainObject(value) {
   return false;
 };
 
-var metaMapToSpecifierMetaMap = function metaMapToSpecifierMetaMap(metaMap) {
-  if (!isPlainObject(metaMap)) {
-    throw new TypeError("metaMap must be a plain object, got ".concat(metaMap));
+var structuredMetaMapToMetaMap = function structuredMetaMapToMetaMap(structuredMetaMap) {
+  if (!isPlainObject(structuredMetaMap)) {
+    throw new TypeError("structuredMetaMap must be a plain object, got ".concat(structuredMetaMap));
   }
 
   if (arguments.length <= 1 ? 0 : arguments.length - 1) {
     throw new Error("received more arguments than expected.\n--- number of arguments received ---\n".concat(1 + (arguments.length <= 1 ? 0 : arguments.length - 1), "\n--- number of arguments expected ---\n1"));
   }
 
-  var specifierMetaMap = {};
-  Object.keys(metaMap).forEach(function (metaKey) {
-    var specifierValueMap = metaMap[metaKey];
+  var metaMap = {};
+  Object.keys(structuredMetaMap).forEach(function (metaProperty) {
+    var metaValueMap = structuredMetaMap[metaProperty];
 
-    if (!isPlainObject(specifierValueMap)) {
-      throw new TypeError("metaMap value must be plain object, got ".concat(specifierValueMap, " for ").concat(metaKey));
+    if (!isPlainObject(metaValueMap)) {
+      throw new TypeError("metaValueMap must be plain object, got ".concat(metaValueMap, " for ").concat(metaProperty));
     }
 
-    Object.keys(specifierValueMap).forEach(function (specifier) {
-      var metaValue = specifierValueMap[specifier];
+    Object.keys(metaValueMap).forEach(function (pattern) {
+      var metaValue = metaValueMap[pattern];
 
-      var meta = _defineProperty({}, metaKey, metaValue);
+      var meta = _defineProperty({}, metaProperty, metaValue);
 
-      specifierMetaMap[specifier] = specifier in specifierMetaMap ? _objectSpread(_objectSpread({}, specifierMetaMap[specifier]), meta) : meta;
+      metaMap[pattern] = pattern in metaMap ? _objectSpread(_objectSpread({}, metaMap[pattern]), meta) : meta;
     });
   });
-  return specifierMetaMap;
-};
-
-var assertSpecifierMetaMap = function assertSpecifierMetaMap(value) {
-  var checkComposition = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-  if (!isPlainObject(value)) {
-    throw new TypeError("specifierMetaMap must be a plain object, got ".concat(value));
-  }
-
-  if (checkComposition) {
-    var plainObject = value;
-    Object.keys(plainObject).forEach(function (key) {
-      assertUrlLike(key, "specifierMetaMap key");
-      var value = plainObject[key];
-
-      if (value !== null && !isPlainObject(value)) {
-        throw new TypeError("specifierMetaMap value must be a plain object or null, got ".concat(value, " under key ").concat(key));
-      }
-    });
-  }
-};
-
-var normalizeSpecifierMetaMap = function normalizeSpecifierMetaMap(specifierMetaMap, url) {
-  assertSpecifierMetaMap(specifierMetaMap, false);
-  assertUrlLike(url, "url");
-
-  if (arguments.length <= 2 ? 0 : arguments.length - 2) {
-    throw new Error("received more arguments than expected.\n--- number of arguments received ---\n".concat(2 + (arguments.length <= 2 ? 0 : arguments.length - 2), "\n--- number of arguments expected ---\n2"));
-  }
-
-  var specifierMetaMapNormalized = {};
-  Object.keys(specifierMetaMap).forEach(function (specifier) {
-    var specifierResolved = String(new URL(specifier, url));
-    specifierMetaMapNormalized[specifierResolved] = specifierMetaMap[specifier];
-  });
-  return specifierMetaMapNormalized;
+  return metaMap;
 };
 
 var urlCanContainsMetaMatching = function urlCanContainsMetaMatching(_ref) {
   var url = _ref.url,
-      specifierMetaMap = _ref.specifierMetaMap,
+      structuredMetaMap = _ref.structuredMetaMap,
       predicate = _ref.predicate,
-      rest = _objectWithoutProperties(_ref, ["url", "specifierMetaMap", "predicate"]);
+      rest = _objectWithoutProperties(_ref, ["url", "structuredMetaMap", "predicate"]);
 
   assertUrlLike(url, "url"); // the function was meants to be used on url ending with '/'
 
@@ -483,31 +468,30 @@ var urlCanContainsMetaMatching = function urlCanContainsMetaMatching(_ref) {
     throw new Error("url should end with /, got ".concat(url));
   }
 
-  assertSpecifierMetaMap(specifierMetaMap);
-
   if (typeof predicate !== "function") {
     throw new TypeError("predicate must be a function, got ".concat(predicate));
   }
 
   if (Object.keys(rest).length) {
-    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\nurl, specifierMetaMap, predicate"));
-  } // for full match we must create an object to allow pattern to override previous ones
+    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\nurl, structuredMetaMap, predicate"));
+  }
 
+  var metaMap = structuredMetaMapToMetaMap(structuredMetaMap); // for full match we must create an object to allow pattern to override previous ones
 
   var fullMatchMeta = {};
   var someFullMatch = false; // for partial match, any meta satisfying predicate will be valid because
   // we don't know for sure if pattern will still match for a file inside pathname
 
   var partialMatchMetaArray = [];
-  Object.keys(specifierMetaMap).forEach(function (specifier) {
-    var meta = specifierMetaMap[specifier];
+  Object.keys(metaMap).forEach(function (pattern) {
+    var meta = metaMap[pattern];
 
-    var _applySpecifierPatter = applySpecifierPatternMatching({
-      specifier: specifier,
+    var _applyPatternMatching = applyPatternMatching({
+      pattern: pattern,
       url: url
     }),
-        matched = _applySpecifierPatter.matched,
-        index = _applySpecifierPatter.index;
+        matched = _applyPatternMatching.matched,
+        index = _applyPatternMatching.index;
 
     if (matched) {
       someFullMatch = true;
@@ -530,31 +514,32 @@ var urlToMeta = function urlToMeta() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
   var url = _ref.url,
-      specifierMetaMap = _ref.specifierMetaMap,
-      rest = _objectWithoutProperties(_ref, ["url", "specifierMetaMap"]);
+      structuredMetaMap = _ref.structuredMetaMap,
+      rest = _objectWithoutProperties(_ref, ["url", "structuredMetaMap"]);
 
   assertUrlLike(url);
-  assertSpecifierMetaMap(specifierMetaMap);
 
   if (Object.keys(rest).length) {
-    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\nurl, specifierMetaMap"));
+    throw new Error("received more parameters than expected.\n--- name of unexpected parameters ---\n".concat(Object.keys(rest), "\n--- name of expected parameters ---\nurl, structuredMetaMap"));
   }
 
-  return Object.keys(specifierMetaMap).reduce(function (previousMeta, specifier) {
-    var _applySpecifierPatter = applySpecifierPatternMatching({
-      specifier: specifier,
+  var metaMap = structuredMetaMapToMetaMap(structuredMetaMap);
+  return Object.keys(metaMap).reduce(function (previousMeta, pattern) {
+    var _applyPatternMatching = applyPatternMatching({
+      pattern: pattern,
       url: url
     }),
-        matched = _applySpecifierPatter.matched;
+        matched = _applyPatternMatching.matched;
 
     if (matched) {
-      return _objectSpread(_objectSpread({}, previousMeta), specifierMetaMap[specifier]);
+      var meta = metaMap[pattern];
+      return _objectSpread(_objectSpread({}, previousMeta), meta);
     }
 
     return previousMeta;
   }, {});
 };
 
-export { applySpecifierPatternMatching, metaMapToSpecifierMetaMap, normalizeSpecifierMetaMap, urlCanContainsMetaMatching, urlToMeta };
+export { applyPatternMatching, normalizeStructuredMetaMap, urlCanContainsMetaMatching, urlToMeta };
 
 //# sourceMappingURL=main.js.map
