@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       # https://github.com/microsoft/playwright-github-action/blob/d6cdf95f9d7664d92065fda17d5d301d63dcafee/index.js#L10
+      - uses: microsoft/playwright-github-action@v1
       - name: install required linux packages
         if: runner.os == 'Linux'
         run: |
