@@ -1,5 +1,5 @@
 import { assert } from "@jsenv/assert"
-import { urlCanContainsMetaMatching } from "../../index.js"
+import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
 
 const meta = { whatever: 42 }
 const metaOverride = { whatever: 43 }
@@ -8,7 +8,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///.git/": metaOverride,
     },
@@ -21,7 +21,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///.git/": metaOverride,
     },
@@ -34,7 +34,7 @@ const predicate = ({ whatever }) => whatever === 42
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///.git/": metaOverride,
     },
@@ -50,7 +50,7 @@ try {
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///.git/": metaOverride,
     },
@@ -66,7 +66,7 @@ try {
 try {
   urlCanContainsMetaMatching({
     url: "file:///.git/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///.git/": metaOverride,
     },
@@ -80,6 +80,6 @@ try {
 --- name of unexpected parameters ---
 otherParameter
 --- name of expected parameters ---
-url, specifierMetaMap, predicate`)
+url, structuredMetaMap, predicate`)
   assert({ actual, expected })
 }

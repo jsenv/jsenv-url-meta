@@ -1,11 +1,13 @@
 import { assert } from "@jsenv/assert"
-import { urlToMeta } from "../../index.js"
+import { urlToMeta } from "@jsenv/url-meta"
 
 {
   const actual = urlToMeta({
     url: "file:///a",
-    specifierMetaMap: {
-      "file:///**/*": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/*": true,
+      },
     },
   })
   const expected = { a: true }
@@ -15,8 +17,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///node_modules",
-    specifierMetaMap: {
-      "file:///**/*": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/*": true,
+      },
     },
   })
   const expected = { a: true }
@@ -26,8 +30,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a",
-    specifierMetaMap: {
-      "file:///a/**/*.test.js": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a/**/*.test.js": true,
+      },
     },
   })
   const expected = {}
@@ -37,8 +43,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b.test.js",
-    specifierMetaMap: {
-      "file:///a/**/*.test.js": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a/**/*.test.js": true,
+      },
     },
   })
   const expected = { a: true }
@@ -48,8 +56,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b.js",
-    specifierMetaMap: {
-      "file:///a/**/*.test.js": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a/**/*.test.js": true,
+      },
     },
   })
   const expected = {}
@@ -59,8 +69,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///a/b/c.test.js",
-    specifierMetaMap: {
-      "file:///a/**/*.test.js": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///a/**/*.test.js": true,
+      },
     },
   })
   const expected = { a: true }
@@ -70,8 +82,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///index.test.js",
-    specifierMetaMap: {
-      "file:///**/*.js": { a: true },
+    structuredMetaMap: {
+      a: {
+        "file:///**/*.js": true,
+      },
     },
   })
   const expected = { a: true }

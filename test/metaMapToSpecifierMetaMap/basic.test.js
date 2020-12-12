@@ -1,5 +1,5 @@
 import { assert } from "@jsenv/assert"
-import { metaMapToSpecifierMetaMap } from "../../index.js"
+import { metaMapToSpecifierMetaMap } from "@jsenv/url-meta"
 
 {
   const actual = metaMapToSpecifierMetaMap({

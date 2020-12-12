@@ -1,11 +1,13 @@
 import { assert } from "@jsenv/assert"
-import { urlToMeta } from "../../index.js"
+import { urlToMeta } from "@jsenv/url-meta"
 
 {
   const actual = urlToMeta({
     url: "file:///file.es5.js/file.es5.js.map",
-    specifierMetaMap: {
-      "file:///**/*.js": { js: true },
+    structuredMetaMap: {
+      js: {
+        "file:///**/*.js": true,
+      },
     },
   })
   const expected = {}
@@ -15,9 +17,11 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///file.es5.js/file.es5.js.map",
-    specifierMetaMap: {
-      "file:///**/*.js": { js: true },
-      "file:///**/*.js/**": { js: false },
+    structuredMetaMap: {
+      js: {
+        "file:///**/*.js": true,
+        "file:///**/*.js/**": false,
+      },
     },
   })
   const expected = { js: false }
@@ -27,8 +31,10 @@ import { urlToMeta } from "../../index.js"
 {
   const actual = urlToMeta({
     url: "file:///file.js.map",
-    specifierMetaMap: {
-      "file:///**/*.js": { js: true },
+    structuredMetaMap: {
+      js: {
+        "file:///**/*.js": true,
+      },
     },
   })
   const expected = {}
@@ -36,111 +42,115 @@ import { urlToMeta } from "../../index.js"
 }
 
 {
-  const specifierMetaMap = {
-    "file:///**/*.js": { format: true },
-    "file:///**/*.jsx": { format: true },
-    "file:///build": { format: false },
-    "file:///src/exception.js": { format: false },
+  const structuredMetaMap = {
+    format: {
+      "file:///**/*.js": true,
+      "file:///**/*.jsx": true,
+      "file:///build": false,
+      "file:///src/exception.js": false,
+    },
   }
 
   {
-    const actual = urlToMeta({ url: "file:///index.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///index.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///src/file.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///src/file.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///src/folder/file.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///src/folder/file.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///index.test.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///index.test.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///src/file.test.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///src/file.test.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///src/folder/file.test.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///src/folder/file.test.js", structuredMetaMap })
     const expected = { format: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ url: "file:///src/exception.js", specifierMetaMap })
+    const actual = urlToMeta({ url: "file:///src/exception.js", structuredMetaMap })
     const expected = { format: false }
     assert({ actual, expected })
   }
 }
 
 {
-  const specifierMetaMap = {
-    "file:///index.js": { cover: true },
-    "file:///src/**/*.js": { cover: true },
-    "file:///src/**/*.jsx": { cover: true },
-    "file:///**/*.test.js": { cover: false },
-    "file:///**/*.test.jsx": { cover: false },
-    "file:///build/": { cover: false },
-    "file:///src/exception.js": { cover: false },
+  const structuredMetaMap = {
+    cover: {
+      "file:///index.js": true,
+      "file:///src/**/*.js": true,
+      "file:///src/**/*.jsx": true,
+      "file:///**/*.test.js": false,
+      "file:///**/*.test.jsx": false,
+      "file:///build/": false,
+      "file:///src/exception.js": false,
+    },
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///index.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///index.js" })
     const expected = { cover: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///src/file.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///src/file.js" })
     const expected = { cover: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///src/folder/file.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///src/folder/file.js" })
     const expected = { cover: true }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///index.test.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///index.test.js" })
     const expected = { cover: false }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///src/file.test.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///src/file.test.js" })
     const expected = { cover: false }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///src/folder/file.test.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///src/folder/file.test.js" })
     const expected = { cover: false }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///build/index.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///build/index.js" })
     const expected = { cover: false }
     assert({ actual, expected })
   }
 
   {
-    const actual = urlToMeta({ specifierMetaMap, url: "file:///src/exception.js" })
+    const actual = urlToMeta({ structuredMetaMap, url: "file:///src/exception.js" })
     const expected = { cover: false }
     assert({ actual, expected })
   }

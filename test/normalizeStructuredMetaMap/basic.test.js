@@ -1,8 +1,8 @@
 import { assert } from "@jsenv/assert"
-import { normalizeSpecifierMetaMap } from "../../index.js"
+import { normalizeStructuredMetaMap } from "@jsenv/url-meta"
 
 {
-  const actual = normalizeSpecifierMetaMap(
+  const actual = normalizeStructuredMetaMap(
     {
       "./a.js": { whatever: true },
       "http://example.com/file.js": { whatever: true },
@@ -16,9 +16,9 @@ import { normalizeSpecifierMetaMap } from "../../index.js"
   assert({ actual, expected })
 }
 
-// ensure normalizeSpecifierMetaMap does not sort by length
+// ensure normalizeStructuredMetaMap does not sort by length
 {
-  const actual = normalizeSpecifierMetaMap(
+  const actual = normalizeStructuredMetaMap(
     {
       "./a.js": 42,
       "./long.js": 42,
@@ -33,7 +33,7 @@ import { normalizeSpecifierMetaMap } from "../../index.js"
 }
 
 try {
-  normalizeSpecifierMetaMap(
+  normalizeStructuredMetaMap(
     {
       "./a.js": 42,
       "./long.js": 42,

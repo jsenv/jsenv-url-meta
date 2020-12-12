@@ -1,5 +1,5 @@
 import { assert } from "@jsenv/assert"
-import { urlCanContainsMetaMatching } from "../../index.js"
+import { urlCanContainsMetaMatching } from "@jsenv/url-meta"
 
 const meta = { whatever: 42 }
 const metaOverride = { whatever: 43 }
@@ -8,7 +8,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///.github/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/.github/": { source: true },
       "file:///**/.git/": { source: false },
     },
@@ -19,14 +19,14 @@ const predicate = ({ whatever }) => whatever === 42
 }
 
 {
-  const specifierMetaMap = {
+  const structuredMetaMap = {
     "file:///a/b/": meta,
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -35,7 +35,7 @@ const predicate = ({ whatever }) => whatever === 42
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/b/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -44,7 +44,7 @@ const predicate = ({ whatever }) => whatever === 42
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/c/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = false
@@ -53,13 +53,13 @@ const predicate = ({ whatever }) => whatever === 42
 }
 
 {
-  const specifierMetaMap = {
+  const structuredMetaMap = {
     "file:///a/b*/c/": meta,
   }
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/bZ/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -68,7 +68,7 @@ const predicate = ({ whatever }) => whatever === 42
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///a/bZ/c/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -79,7 +79,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///a/b/c/",
-    specifierMetaMap: { "file:///a/**/b.js": meta },
+    structuredMetaMap: { "file:///a/**/b.js": meta },
     predicate,
   })
   const expected = true
@@ -89,7 +89,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///node_modules/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*": meta,
       "file:///node_modules/": metaOverride,
     },
@@ -102,7 +102,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///**/*.js": meta,
       "file:///**/*.md": metaOverride,
     },
@@ -113,14 +113,14 @@ const predicate = ({ whatever }) => whatever === 42
 }
 
 {
-  const specifierMetaMap = {
+  const structuredMetaMap = {
     "file:///**/*.js": meta,
   }
 
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src/folder/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -129,7 +129,7 @@ const predicate = ({ whatever }) => whatever === 42
   {
     const actual = urlCanContainsMetaMatching({
       url: "file:///src/folder/subfolder/",
-      specifierMetaMap,
+      structuredMetaMap,
       predicate,
     })
     const expected = true
@@ -140,7 +140,7 @@ const predicate = ({ whatever }) => whatever === 42
 {
   const actual = urlCanContainsMetaMatching({
     url: "file:///src/jsCreateCompileService/compile/",
-    specifierMetaMap: {
+    structuredMetaMap: {
       "file:///src/**/*.js": meta,
     },
     predicate,

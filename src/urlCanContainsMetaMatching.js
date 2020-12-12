@@ -1,6 +1,6 @@
 import { assertUrlLike } from "./internal/assertUrlLike.js"
 import { structuredMetaMapToMetaMap } from "./internal/structuredMetaMapToMetaMap.js"
-import { applySpecifierPatternMatching } from "./applySpecifierPatternMatching.js"
+import { applyPatternMatching } from "./applyPatternMatching.js"
 
 export const urlCanContainsMetaMatching = ({ url, structuredMetaMap, predicate, ...rest }) => {
   assertUrlLike(url, "url")
@@ -30,7 +30,7 @@ url, specifierMetaMap, predicate`)
 
   Object.keys(metaMap).forEach((pattern) => {
     const meta = metaMap[pattern]
-    const { matched, index } = applySpecifierPatternMatching({
+    const { matched, index } = applyPatternMatching({
       pattern,
       url,
     })
