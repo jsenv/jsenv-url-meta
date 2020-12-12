@@ -26,7 +26,7 @@ Associate data to urls using patterns.
 import { urlToMeta } from "@jsenv/url-meta"
 
 // conditionally associates url and values
-const metaMap = {
+const structuredMetaMap = {
   color: {
     "file:///*": "black",
     "file:///*.js": "red",
@@ -34,7 +34,7 @@ const metaMap = {
 }
 
 const urlToColor = (url) => {
-  return urlToMeta({ url, metaMap }).color
+  return urlToMeta({ url, structuredMetaMap }).color
 }
 
 console.log(`file.json color is ${urlToColor("file:///file.json")}`)
@@ -92,9 +92,11 @@ const metaMap = {
 
 </details>
 
+> `metaMap` are documented only to introduce `structuredMetaMap` which is a more structured approach.
+
 ## structuredMetaMap
 
-A `structuredMetaMap` is an object composed by `metaProperty` and `metaValueMap`. `metaValueMap` are themselves composed by `pattern` and `metaValue`. `structuredMetaMap` is an other way of associating ,meta to urls.
+A `structuredMetaMap` is an object composed by `metaProperty` and `metaValueMap`. `metaValueMap` are themselves composed by `pattern` and `metaValue`. `structuredMetaMap` is a way to associate meta to urls.
 
 A `structuredMetaMap` example:
 
@@ -107,7 +109,7 @@ A `structuredMetaMap` example:
 }
 ```
 
-> `structuredMetaMap` format helps to structure the logic. As a consequence, it is the format used by our apis.
+> `structuredMetaMap` format allows to group patterns per property which is easier to read and compose.
 
 <details>
   <summary>structuredMetaMap namings</summary>
